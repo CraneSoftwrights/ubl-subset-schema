@@ -2,6 +2,8 @@
 
 The build process in this repository creates the suite of subset schema artefacts distilled from either UBL 2.2, or UBL 2.3 CSPRD02.
 
+The demonstration environment provided in this repository is included courtesy of the [DBE Core Oy Finland https://dbecore.com](https://dbecore.com) project, with my many thanks.
+
 ## Contributions
 
 Contributions are welcome provided that they can be incorporated into the repository within the constraints of the [license and disclaimer information](https://github.com/CraneSoftwrights/ubl-subset-schema/blob/master/LICENSE.md).
@@ -12,7 +14,7 @@ Please see the [LICENSE](https://github.com/CraneSoftwrights/ubl-subset-schema/b
 
 ## Further Description of this Repository
 
-Distributions for UBL 2.0 through 2.3 have comprised two main collections of information, the documentation and the artefacts.
+Fork this repository in order to create subset XSD and JSON schemas for either UBL 2.2 or UBL 2.3 CSPRD02.
 
 This repository is for the artefacts:
 - generation of document model information from UBL Google spreadsheets
@@ -20,15 +22,7 @@ This repository is for the artefacts:
   - XSD schemas
   - JSON schemas
   - ODS and XLS spreadsheets
-- other pre-created content
-  - code lists
-- other maintained content
-  - validation examples
-  - sample XML instance documents
-- assembly of material into distributed arrangements
-- generation of certain documentation components needed for publishing
-
-See https://github.com/oasis-tcs/ubl-2.3-hub for the hub documentation.
+  - HTML summary reports with and without indicating excluded UBL components
 
 The document models in ODF-ODS format being processed into results are downloaded from Google _(Important note: the ODF-ODS files from Microsoft Word or from OpenOffice are bloated and the generation process is slowed by a factor of sometimes up to 10; even if you have maintained the ODS files offline from Google, it will speed the generation process if you take the time to upload your ODS files to Google, convert them into a Google spreadsheet, and then download the Google spreadsheets as the ODS files to put into this repository)_:
 - `UBL-Documents-Google.ods` _(Please see important note above)_
