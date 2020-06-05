@@ -4,12 +4,22 @@ if [ -f artefacts.console.$3.txt ]; then rm artefacts.console.$3.txt ; fi
 
 if [ "$3" = "" ]; then echo Missing results directory, environment, and dateZ arguments ; exit 1 ; fi
 
+
+# Configuration parameters
+
 version=0.1
 libGoogle=https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY
 docGoogle=https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ
+copyright="Subset copyright not asserted; Portions copyright &#169; OASIS Open"
+configDirectory=DBEcore
+UBLversion=2.2
+title="DBEcore subset of UBL 2.2"
+package=DBEcore-subset-UBL-2.2
+subsetColumn=DBECoreSubset
+subsetDocsRegex="(^UBL-(RequestForQuotation|Quotation|Order|OrderResponse|OrderChange|OrderCancellation|ApplicationResponse)-2.2$)"
 
 echo Building package...
-java -Dant.home=utilities/ant -classpath utilities/saxon/saxon.jar:utilities/ant/lib/ant-launcher.jar:utilities/saxon9he/saxon9he.jar:. org.apache.tools.ant.launch.Launcher -buildfile subsetUBLschemas.xml "-Dtitle=DBEcore subset of UBL 2.2" -DUBLversion=2.2 -DUBLstage=os  -Ddir=$1 -Dpackage=DBEcore-subset-UBL-2.2 -Dversion=$version -Dstamp=$3 "-Dsubset-model-regex=(^UBL-(RequestForQuotation|Quotation|Order|OrderResponse|OrderChange|OrderCancellation|ApplicationResponse)-2.2$)" -Dsubset-column-name=DBECoreSubset -DlibraryGoogle=$libGoogle -DdocumentsGoogle=$docGoogle "-Dcopyright=Subset copyright not asserted; Portions copyright &#169; OASIS Open" -Dconfigdir=DBEcore    | tee artefacts.console.$3.txt
+java -Dant.home=utilities/ant -classpath utilities/saxon/saxon.jar:utilities/ant/lib/ant-launcher.jar:utilities/saxon9he/saxon9he.jar:. org.apache.tools.ant.launch.Launcher -buildfile subsetUBLschemas.xml "-Dtitle=$title" "-DUBLversion=$UBLversion" -DUBLstage=os -Ddir=$1 "-Dpackage=$package" -Dversion=$version -Dstamp=$3 "-Dsubset-model-regex=$subsetDocsRegex" "-Dsubset-column-name=$subsetColumn" "-DlibraryGoogle=$libGoogle" "-DdocumentsGoogle=$docGoogle" "-Dcopyright=$copyright" "-Dconfigdir=$configDirectory" | tee artefacts.console.$3.txt
 serverReturn=${PIPESTATUS[0]}
 
 if [ ! -d $1 ]; then mkdir $1 ; fi
