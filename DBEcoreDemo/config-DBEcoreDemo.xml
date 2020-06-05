@@ -76,7 +76,7 @@
  </ndr>
  <schema version="2.2">
 <comment>
-  Library:           DBEsubset documents and business objects
+  Library:           DBEcore Subset Demonstration documents and business objects
   Module:            %f
   Generated on:      %z
   Based on:          OASIS Universal Business Language (UBL) 2.2 CS01

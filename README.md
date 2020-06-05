@@ -1,6 +1,6 @@
 # README
 
-The build process in this repository creates the suite of subset schema artefacts distilled from either UBL 2.2, or UBL 2.3 CSPRD02.
+The build process in this repository creates the suite of subset schema artefacts distilled from either UBL 2.2, or UBL 2.3 CSPRD02. It leverages [free developer tools made available by Crane Softwrights Ltd.](http://CraneSoftwrights.com/links/res-git.htm)
 
 The demonstration environment provided in this repository is included courtesy of the [DBE Core Oy Finland https://DBEcoreDemo.com](https://dbecore.com) project, with my many thanks.
 
@@ -11,6 +11,16 @@ Contributions are welcome provided that they can be incorporated into the reposi
 ## Licensing
 
 Please see the [LICENSE](https://github.com/CraneSoftwrights/ubl-subset-schema/blob/master/LICENSE.md) file for the description of the license terms and disclaimers.
+
+## The role of UBL subset schemas 
+
+This diagram outlines the role of a subset of UBL schemas in the generation of XML documents, independent of the role of the full UBL schemas when ingesting XML documents:
+
+![The role of a UBL subset schema](README-subset.png "The role of a UBL subset schema")
+
+1. The full UBL schemas without being subset.
+1. The subset UBL schemas supporting only the constructs needed for XML generation.
+1. The additional value constraints expressed in XSLT and authored using technologies such as ISO/IEC 19757-3 Schematron, OASIS Context/Value Association (CVA), OASIS genericode, or other means.
 
 ## Further Description of this Repository
 
@@ -60,6 +70,8 @@ There are configuration environment variables to set:
 
 `subsetDocsRegex="(^UBL-(RequestForQuotation|Quotation|Order|OrderResponse|OrderChange|OrderCancellation|ApplicationResponse)-2.2$)"`
 - the regular expression against which the documents are checked to be included in the subset generation (note that the document names begin with "UBL-" and end with the UBL version number)
+
+The configuration file must be edited to reflect...
 
 To determine if the generation was successful, look in the `archive-only-not-in-final-distribution` directory for these files summarizing any problems with the process:
 - `artefacts.exitcode.{label}.txt` - exit code from the execution of the Ant build script
