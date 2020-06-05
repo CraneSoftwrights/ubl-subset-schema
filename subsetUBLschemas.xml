@@ -1,0 +1,458 @@
+<project default="make" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
+<target name="make">
+  <property name="thisdir" value="${user.dir}"/>
+  <property name="utilitydir" value="${thisdir}/utilities/"/>
+  <condition property="abieExtensions" value="no">
+    <!--override abieExtensions as "no" for UBL 2.2 and earlier-->
+    <or>
+      <equals arg1="${UBLversion}" arg2="2.1"/>
+      <equals arg1="${UBLversion}" arg2="2.2"/>
+    </or>
+  </condition>
+  <property name="abieExtensions" value="yes"/>
+  <!--software timestamps-->
+  <property name="gc2obdndr" value="20200604-1750z"/>
+  <property name="ods2obdgc" value="20200412-1320z"/>
+  <property name="cvagcxsl"  value="20130416-0040z"/>
+  <property name="cva2sch"   value="20130207-1940z"/>
+  <property name="gc2odsxml" value="20170727-0220z"/>
+  <!--documentation-->
+  <echo message="gc2obdndr=${gc2obdndr}"/>
+  <echo message="ods2obdgc=${ods2obdgc}"/>
+  <echo message="gc2odsxml=${gc2odsxml}"/>
+  <echo message="cvagcxsl=${cvagcxsl}"/>
+  <echo message="cva2sch=${cva2sch}"/>
+  <echo message="dir=${dir}"/>
+  <echo message="utilitydir=${utilitydir}"/>
+  <echo message="thisdir=${thisdir}"/>
+  <echo message="UBLversion=${UBLversion}"/>
+  <echo message="abieExtensions=${abieExtensions}"/>
+  <!--test skip-gc.txt to preserve the old genericode model file-->
+  <available property="skip-gc-generation" file="skip-gc.txt"/>
+  <echo if:set="skip-gc-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: ${configdir}-Entities-${version}.gc not being generated from the given spreadsheets; delete skip-gc.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
+  <!--test skip-spreadsheet.txt for no spreadsheets-->
+  <available property="skip-spreadsheet-generation" file="skip-spreadsheets.txt"/>
+  <echo if:set="skip-spreadsheet-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: ODS and XLS spreadsheets not being generated from ${configdir}-Entities-${version}.gc ; delete skip-spreadsheets.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
+  <!--test skip-html.txt for no HTML-->
+  <available property="skip-html-generation" file="skip-html.txt"/>
+  <echo if:set="skip-html-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: HTML reports not being generated from ${configdir}-Entities-${version}.gc; delete skip-html.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
+  
+  <available property="gc2obdndr-exists"
+         file="${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-gc2obdndr.xsl"/>
+  <echo unless:set="gc2obdndr-exists" 
+        message="Cannot find gc2obdndr=${gc2obdndr}"/>
+  <available property="ods2obdgc-exists"
+file="${utilitydir}Crane-ods2obdgc-${ods2obdgc}/Crane-ods2obdgc.xsl"/>
+  <echo unless:set="ods2obdgc-exists" 
+        message="Cannot find ods2obdgc=${ods2obdgc}"/>
+  <available property="gc2odsxml-exists"
+file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
+  <echo unless:set="gc2odsxml-exists" 
+        message="Cannot find gc2odsxml=${gc2odsxml}"/>
+  
+  <echo message="subset-model-regex=${subset-model-regex}"/>
+  <echo message="subset-column-name=${subset-column-name}"/>
+  <echo message="version=${version}"/>
+  <echo message="stamp=${stamp}"/>
+  
+  <!--start with the raw files from UBL-->
+  <copy preservelastmodified="true" todir="${dir}/ubl-${UBLversion}">
+    <fileset dir="ubl-${UBLversion}">
+      <include name="**"/>
+    </fileset>
+  </copy>
+  <copy preservelastmodified="true" todir="${dir}/${package}-${version}">
+    <fileset dir="${dir}/ubl-${UBLversion}/raw-${UBLversion}">
+      <include name="**"/>
+    </fileset>
+  </copy>
+  <copy preservelastmodified="true" todir="${dir}/${package}-${version}/xsdrt">
+    <fileset dir="ubl-${UBLversion}/raw-${UBLversion}/xsd">
+      <include name="**"/>
+    </fileset>
+  </copy>
+  <!--next the raw files for the subset-->
+  <copy preservelastmodified="true" todir="${dir}/${configdir}">
+    <fileset dir="${configdir}">
+      <include name="**"/>
+    </fileset>
+  </copy>
+  <move preservelastmodified="true" todir="${dir}/${package}-${version}">
+    <fileset dir="${dir}/${configdir}/raw-${configdir}">
+      <include name="**"/>
+    </fileset>
+  </move>
+  <move preservelastmodified="true" todir="${dir}"
+  file="${dir}/${package}-${version}/mod/${configdir}-Entities-${version}.gc"/>
+  <delete
+        file="${dir}/${package}-${version}/mod/UBL-Entities-${UBLversion}.gc"/>
+  
+<!--  <copy preservelastmodified="true" todir="${dir}/ubl-${UBLversion}/raw-${UBLversion}">
+    <fileset dir="ubl-${UBLversion}/raw-${UBLversion}">
+      <include name="**"/>
+    </fileset>
+  </copy>
+  <copy preservelastmodified="true" todir="${dir}/ubl-${UBLversion}/raw-${UBLversion}/xsdrt">
+    <fileset dir="ubl-${UBLversion}/raw-${UBLversion}/xsd">
+      <include name="**"/>
+    </fileset>
+  </copy>
+  <!-\-next the raw files from the subset-\->
+  <copy preservelastmodified="true" todir="${dir}/${configdir}">
+    <fileset dir="${configdir}">
+      <include name="**"/>
+    </fileset>
+  </copy>
+  <copy preservelastmodified="true" todir="${dir}">
+    <fileset dir="${configdir}/raw-${configdir}/mod">
+      <include name="${configdir}-Entities-${version}.gc"/>
+    </fileset>
+  </copy>-->
+
+  <!--create GC files for subset-->
+  <delete file="${dir}/${configdir}-Entities-${version}.gc"
+          unless:set="skip-gc-generation"/>
+  <exec executable="wget" unless:set="skip-gc-generation">
+    <arg value="--no-check-certificate"/>
+    <arg value="-O"/><arg value="${dir}/UBL-Library-Google.ods"/>
+    <arg value="${libraryGoogle}/export?format=ods"/>
+  </exec>
+  <exec executable="wget" unless:set="skip-gc-generation">
+    <arg value="--no-check-certificate"/>
+    <arg value="-O"/><arg value="${dir}/UBL-Documents-Google.ods"/>
+    <arg value="${documentsGoogle}/export?format=ods"/>
+  </exec>
+  <condition property="processFailed">
+    <not>
+      <or>
+        <istrue value="${skip-gc-generation}"/>
+        <and>
+          <available file="${dir}/UBL-Library-Google.ods"/>
+          <available file="${dir}/UBL-Documents-Google.ods"/>
+        </and>
+      </or>
+    </not>
+  </condition>
+  <condition property="gc-okay">
+    <and>
+      <istrue value="${skip-gc-generation}"/>
+      <available file="${dir}/${configdir}-Entities-${version}.gc"/>
+    </and>
+  </condition>
+  <!--create GC unless GC has been supplied-->
+  <property name="lengthen-uri"
+            location="${configdir}/massageModelName-${configdir}.xml"/>
+  <property name="ident-uri"
+            location="${configdir}/ident-${configdir}.xml"/>
+  <antcall target="-ods2gc" unless:set="processFailed">
+    <param name="okay"   value="gc-okay"/>
+    <param name="source" value="${dir}/UBL-Library-Google.ods,${dir}/UBL-Documents-Google.ods"/>
+    <param name="target" value="${dir}/${configdir}-Entities-${version}.gc"/>
+    <param name="identification-uri" value="${ident-uri}"/>
+    <param name="lengthen-model-name-uri" value="${lengthen-uri}"/>
+  </antcall>
+  <condition property="processFailed">
+    <not>
+      <available file="${dir}/${configdir}-Entities-${version}.gc"/>
+    </not>
+  </condition>
+
+  <!--create XSD files--><!--against UBL ${UBLversion}-->
+  <antcallback target="-gc2ndr" return="returnVersion"
+               unless:set="processFailed">
+    <param name="okay"    value="xsd-okay"/><!--not set to force running-->
+    <param name="report" 
+           value="${dir}/check-${package}-${stamp}-ubl-${UBLversion}.html"/>
+    <param name="change" value="${package}"/>
+    <param name="compare"
+           value="ubl-${UBLversion}/raw-${UBLversion}/mod/UBL-Entities-${UBLversion}.gc"/>
+    <param name="title"  value="${title}"/>
+    <param name="dbcmn"
+value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-library-ent.xml"/>
+    <param name="dbmain" 
+value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xml"/>
+    <param name="dbhref"
+           value="mod/summary/reports/All-${package}-Documents.html"/>
+    <param name="words"   value="wordlist-UBL-${UBLversion}.txt"/>
+    <param name="source"  value="${dir}/${configdir}-Entities-${version}.gc"/>
+    <param name="config"  value="${configdir}/config-${configdir}.xml"/>
+    <param name="basecfg" value=""/>
+    <param name="basegc"  value=""/>
+    <param name="library"  value="UBL-CommonLibrary-${UBLversion}"/>
+    <param name="subsets" value="${subset-model-regex}"/>
+    <param name="subsCol" value="${subset-column-name}"/>
+    <param name="fatal"   value="yes"/>
+    <param name="returnProperty" value="returnVersion"/>
+  </antcallback>
+  <condition property="processFailed">
+    <and>
+      <isset property="returnVersion"/>
+      <not>
+        <equals arg1="${returnVersion}" arg2="0"/>
+      </not>
+    </and>
+  </condition>
+
+  <!--prepare other artefacts-->
+  <antcall target="-artefacts"/>
+  
+  <!--prepare reports-->
+  <antcall target="-reports"/>
+  
+  <!--package it all up-->
+  <antcall target="-package"/>
+</target>
+
+<target name="-artefacts" unless="processFailed">
+  <uptodate targetfile="${dir}/${package}-${version}/mod/UBL-Entities-${UBLversion}.ods"
+            property=  "display-file-okay">
+    <srcfiles dir=".">
+      <include name="${dir}/${configdir}-Entities-${version}.gc"/>
+      <include name="${configdir}/skeletonDisplayEditSubset-${configdir}.ods"/>
+    </srcfiles>
+  </uptodate>
+  <condition property="display-okay">
+    <or>
+      <istrue value="${display-file-okay}"/>
+      <istrue value="${skip-spreadsheet-generation}"/>
+    </or>
+  </condition>
+  <antcall target="-gc2ods">
+    <param name="okay"   value="display-okay"/>
+    <param name="source" value="${dir}/${configdir}-Entities-${version}.gc"/>
+    <param name="target" value="${dir}/${package}-${version}/mod/${configdir}-${version}.ods"/>
+    <param name="skeleton"
+           value="${configdir}/skeletonDisplayEditSubset-${configdir}.ods"/>
+    <param name="shorten" value=""/>
+  </antcall>
+
+  <uptodate targetfile="${dir}/${package}-${version}/mod/${configdir}-${version}.xls"
+            property=  "xls-file-okay">
+    <srcfiles dir=".">
+      <include name="${dir}/${package}-${version}/mod/${configdir}-${version}.ods"/>
+    </srcfiles>
+  </uptodate>
+  <condition property="xls-okay">
+    <or>
+      <istrue value="${xls-file-okay}"/>
+      <istrue value="${skip-spreadsheet-generation}"/>
+    </or>
+  </condition>
+  <antcall target="-ods2xls">
+    <param name="okay"   value="xls-okay"/>
+    <param name="sourcedir" value="${dir}/${package}-${version}/mod"/>
+    <param name="sourcefilenoext" value="${configdir}-${version}"/>
+  </antcall>
+</target>
+
+<target name="-reports" unless="processFailed">
+  <condition property="html-okay">
+    <or>
+      <istrue value="${html-file-okay}"/>
+      <istrue value="${skip-html-generation}"/>
+    </or>
+  </condition>
+<parallel>  
+  <sequential>
+    <antcall target="-gc2html">
+      <param name="okay"    value="html-okay"/>
+      <param name="source"  value="${dir}/${configdir}-Entities-${version}.gc"/>
+      <param name="library"      value="UBL-CommonLibrary-${UBLversion}"/>
+      <param name="basehtm"     value=""/>
+      <param name="basegc"      value=""/>
+      <param name="subsets"     value="${subset-model-regex}"/>
+      <param name="subsCol"     value="${subset-column-name}"/>
+      <param name="exclusions"  value="no"/>
+      <param name="alldocsname" value="${package}"/>
+    </antcall>  
+    <antcall target="-gc2html">
+      <param name="okay"    value="html-okay"/>
+      <param name="source"  value="${dir}/${configdir}-Entities-${version}.gc"/>
+      <param name="library"      value="UBL-CommonLibrary-${UBLversion}"/>
+      <param name="basehtm"     value=""/>
+      <param name="basegc"      value=""/>
+      <param name="subsets"     value="${subset-model-regex}"/>
+      <param name="subsCol"     value="${subset-column-name}"/>
+      <param name="exclusions"  value="yes"/>
+      <param name="alldocsname" value="${package}-exclusions"/>
+    </antcall>  
+  </sequential>
+</parallel>
+</target>
+
+<target name="-ods2gc" unless="${okay}">
+  <delete file="${target}"/>
+  <echo message='Rebuilding "${target}" GC file...'/>
+  <java append="true" classname="net.sf.saxon.Transform">
+     <arg value="-xsl:${utilitydir}Crane-ods2obdgc-${ods2obdgc}/Crane-ods2obdgc.xsl"/>
+     <arg value="-o:${target}"/>
+     <arg value="-it:ods-uri"/>
+     <arg value="ods-uri=${source}"/>
+     <arg value="identification-uri=${identification-uri}"/>
+     <arg value="lengthen-model-name-uri=${lengthen-model-name-uri}"/>
+  </java>
+  <available property="done" file="${target}"/>
+  <echo unless:set="done" message="Unable to create GC file: ${target}"/>
+</target>
+
+<target name="-gc2ods" unless="${okay}">
+  <delete file="${target}"/>
+  <echo message='Rebuilding "${target}" ODS file...'/>
+  <java append="true" classname="net.sf.saxon.Transform">
+     <arg value="-xsl:${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
+     <arg value="-o:${target}-dir/dummy"/>
+     <arg value="-s:${source}"/>
+     <arg value="skeleton-ods-uri=${skeleton}"/>
+     <arg value="--suppressXsltNamespaceCheck:on"/>
+  </java>
+  <available property="files" file="${target}-dir/content.xml"/>
+  <echo unless:set="files" 
+        message="Unable to create ODS XML file: ${target}-dir/"/>
+  <zip destfile="${target}" basedir="${target}-dir" includes="**"/>
+  <delete dir="${target}-dir"/>
+  <available property="done" file="${target}"/>
+  <echo unless:set="done" message="Unable to create ODS file: ${target}"/>
+</target>
+
+<target name="-ods2xls" unless="${okay}">
+  <delete file="${sourcedir}/${sourcefilenoext}.xls"/>
+  <echo message="Need to rebuild ${sourcedir}/${sourcefilenoext}.xls from ${sourcedir}/${sourcefilenoext}.ods..."/>
+  <available property="ready" file="${sourcedir}/${sourcefilenoext}.ods"/>
+  <echo unless:set="ready" message="Unable to find ODS file: ${sourcedir}/${sourcefilenoext}.ods"/>
+  <exec executable="soffice">
+    <arg value="--headless"/>
+    <arg value="--convert-to"/>
+    <arg value="xls"/>
+    <arg value="--outdir"/>
+    <arg value="${sourcedir}/"/>
+    <arg value="${sourcedir}/${sourcefilenoext}.ods"/>
+  </exec>
+  <available property="done" file="${sourcedir}/${sourcefilenoext}.xls"/>
+  <echo unless:set="done" message="Unable to create XLS file: ${sourcedir}/${sourcefilenoext}.xls"/>
+</target>
+
+<target name="-gc2ndr-check-only" unless="${okay}">
+  <echo message='Checking "${source}" GC file against NDR and old "${compare}" to create "${report}"...'/>
+  <echo message="Fail setting = ${fatal}"/>
+  <touch file="${dir}/${words}"/>
+  <property name="words-uri" location="${dir}/${words}"/>
+  <property name="spell-uri"
+         location="${dir}/ubl-${UBLversion}/spellcheck-UBL-${UBLversion}.txt"/>
+  <java resultproperty="${returnProperty}" append="true" classname="net.sf.saxon.Transform">
+     <arg value="-xsl:${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-checkgc4obdndr.xsl"/>
+     <arg value="-o:${report}"/>
+     <arg value="-s:${source}"/>
+     <arg value="config-uri=${config}"/>
+     <arg value="title-suffix=${title}"/>
+     <arg value="change-suffix=${change}"/>
+     <arg value="old-uri=${compare}"/>
+     <arg value="docbook-common-uri=${dbcmn}"/>
+     <arg value="docbook-maindoc-uri=${dbmain}"/>
+     <arg value="all-documents-report-href=${dbhref}"/>
+     <arg value="den-word-list-uri=${words-uri}"/>
+     <arg value="common-library-singleton-model-name=${library}"/>
+     <arg value="version-column-name=CurrentVersion"/>
+     <arg value="--suppressXsltNamespaceCheck:on"/>
+     <arg value="errors-are-fatal=${fatal}"/>
+  </java>
+  <echo message="Spell-checking the resulting word list into ${dir}/unexpectedWords.txt (run aspell -l EN -p ${spell-uri} check ${words-uri} if abend)..."/>
+  <exec executable="sh">
+    <arg value="-e"/>
+    <arg value="-c"/>
+    <arg value='aspell -l EN -p ${spell-uri} list &lt;${words-uri} | tee ${dir}/unexpectedWords.txt | wc -w | sed "s/ //g" | grep "^0$"'/>
+  </exec>
+</target>
+
+<target name="-gc2ndr" unless="${okay}">
+  <antcallback target="-gc2ndr-check-only" return="${returnProperty}"/>
+  <echo message='Creating XSD/JSON from "${source}" GC file...'/>
+  <java append="true" classname="net.sf.saxon.Transform">
+     <arg value="-xsl:${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-gc2obdndr.xsl"/>
+     <arg value="-s:${source}"/>
+     <arg value="-o:${dir}/${package}-${version}/junk.out"/>
+     <arg value="config-uri=${config}"/>
+     <arg value="base-config-uri=${basecfg}"/>
+     <arg value="base-gc-uri=${basegc}"/>
+     <arg value="errors-are-fatal=${fatal}"/>
+     <arg value="common-library-singleton-model-name=${library}"/>
+     <arg value="subset-model-regex=${subsets}"/>
+     <arg value="subset-column-name=${subsCol}"/>
+     <arg value="--suppressXsltNamespaceCheck:on"/>
+     <arg value="extensions-for-abies=${abieExtensions}"/>
+  </java>
+</target>
+  
+<target name="-gc2html" unless="${okay}">
+  <delete file="${dir}/${package}-${version}/mod/summary/reports"/>
+  <property name="alldocsname" value="All-${package}-Documents"/>
+  <echo message='Creating HTML reports from "${source}" GC file with extensions=${extensions}...'/>
+  <java append="true" classname="net.sf.saxon.Transform">
+     <arg value="-xsl:${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-gc2obdsummary.xsl"/>
+     <arg value="-s:${source}"/>
+     <arg value="-o:${dir}/${package}-${version}/mod/summary/reports/junk.out"/>
+     <arg value="all-documents-base-name=${alldocsname}"/>
+     <arg value="title-prefix=${title}"/>
+     <arg value="date-time=${version}"/>
+     <arg value="subset-model-regex=${subsets}"/>
+     <arg value="subset-column-name=${subsCol}"/>
+     <arg value="subset-exclusions=${exclusions}"/>
+     <arg value="do-all-only=yes"/>
+     <arg value="common-library-singleton-model-name=${library}"/>
+     <arg value="copyright-text=${copyright}"/>
+     <arg value="--suppressXsltNamespaceCheck:on"/>
+  </java>
+</target>
+
+<target name="-package">
+  <move preservelastmodified="true" todir="${dir}/${package}-${version}/mod"
+        file="${dir}/${configdir}-Entities-${version}.gc"/>
+  <delete dir="${dir}/artefacts-${package}-${version}-${stamp}"/>
+  <mkdir dir="${dir}/artefacts-${package}-${version}-${stamp}"/>
+  <copy preservelastmodified="true" todir="${dir}/artefacts-${package}-${version}-${stamp}">
+    <fileset dir="${dir}/${package}-${version}">
+     <include name="**"/>
+    </fileset>
+  </copy>
+  <touch if:set="skip-gc-generation" file="${dir}/artefacts-${package}-${version}-${stamp}/GC-FILE-NOT-REGENERATED.txt"/>
+  <touch if:set="skip-spreadsheet-generation" file="${dir}/artefacts-${package}-${version}-${stamp}/ODS-XLS-FILES-NOT-GENERATED.txt"/>
+  <touch if:set="skip-html-generation" file="${dir}/artefacts-${package}-${version}-${stamp}/HTML-FILES-NOT-GENERATED.txt"/>
+  <mkdir dir="${dir}/artefacts-${package}-${version}-${stamp}/archive-only-not-in-final-distribution"/>
+
+  <copy preservelastmodified="true" 
+todir="${dir}/artefacts-${package}-${version}-${stamp}/archive-only-not-in-final-distribution">
+    <fileset dir=".">
+      <include name="**"/>
+    </fileset>
+  </copy>
+  <move preservelastmodified="true" todir="${dir}/artefacts-${package}-${version}-${stamp}/archive-only-not-in-final-distribution">
+    <fileset dir="${dir}">
+      <include name="*"/>
+    </fileset>
+  </move>
+
+  <!--remove unneeded files to reduce storage burden-->
+  <delete dir="${dir}/${package}"/>
+  
+<!--
+    Cannot create zip until console log and error exit files added to archive. 
+    
+  <delete file="${dir}/artefacts-${package}-${version}-${stamp}.zip"/>
+
+  <zip destfile="${dir}/artefacts-${package}-${version}-${stamp}.zip"
+       basedir="${dir}" includes="artefacts-${package}-${version}/**"/>
+  <delete dir="${dir}/artefacts-${package}-${version}-${stamp}"/>
+  <unzip src="${dir}/artefacts-${package}-${version}-${stamp}.zip" 
+         dest="${dir}" />
+-->
+  <!--documentation-->
+  <echo message="subset-model-regex=${subset-model-regex}"/>
+  <echo message="subset-column-name=${subset-column-name}"/>
+  <echo message="version=${version}"/>
+  <echo message="stamp=${stamp}"/>
+  
+</target>
+
+</project>
