@@ -14,7 +14,7 @@ Please see the [LICENSE](https://github.com/CraneSoftwrights/ubl-subset-schema/b
 
 ## Further Description of this Repository
 
-Fork this repository in order to create subset XSD and JSON schemas for either UBL 2.2 or UBL 2.3 CSPRD02.
+Fork this repository in order to create subset XSD and JSON validation artefacts (XSD and JSON) and documentation for either UBL 2.2 or UBL 2.3 CSPRD02.
 
 This repository is for the artefacts:
 - generation of document model information from UBL Google spreadsheets
