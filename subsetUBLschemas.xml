@@ -409,25 +409,25 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
 <target name="-package">
   <move preservelastmodified="true" todir="${dir}/${package}-${version}/mod"
         file="${dir}/${configdir}-Entities-${version}.gc"/>
-  <delete dir="${dir}/artefacts-${package}-${version}-${stamp}"/>
-  <mkdir dir="${dir}/artefacts-${package}-${version}-${stamp}"/>
-  <copy preservelastmodified="true" todir="${dir}/artefacts-${package}-${version}-${stamp}">
+  <delete dir="${dir}/artefacts-${package}-v${version}-${stamp}"/>
+  <mkdir dir="${dir}/artefacts-${package}-v${version}-${stamp}"/>
+  <copy preservelastmodified="true" todir="${dir}/artefacts-${package}-v${version}-${stamp}">
     <fileset dir="${dir}/${package}-${version}">
      <include name="**"/>
     </fileset>
   </copy>
-  <touch if:set="skip-gc-generation" file="${dir}/artefacts-${package}-${version}-${stamp}/GC-FILE-NOT-REGENERATED.txt"/>
-  <touch if:set="skip-spreadsheet-generation" file="${dir}/artefacts-${package}-${version}-${stamp}/ODS-XLS-FILES-NOT-GENERATED.txt"/>
-  <touch if:set="skip-html-generation" file="${dir}/artefacts-${package}-${version}-${stamp}/HTML-FILES-NOT-GENERATED.txt"/>
-  <mkdir dir="${dir}/artefacts-${package}-${version}-${stamp}/archive-only-not-in-final-distribution"/>
+  <touch if:set="skip-gc-generation" file="${dir}/artefacts-${package}-v${version}-${stamp}/GC-FILE-NOT-REGENERATED.txt"/>
+  <touch if:set="skip-spreadsheet-generation" file="${dir}/artefacts-${package}-v${version}-${stamp}/ODS-XLS-FILES-NOT-GENERATED.txt"/>
+  <touch if:set="skip-html-generation" file="${dir}/artefacts-${package}-v${version}-${stamp}/HTML-FILES-NOT-GENERATED.txt"/>
+  <mkdir dir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution"/>
 
   <copy preservelastmodified="true" 
-todir="${dir}/artefacts-${package}-${version}-${stamp}/archive-only-not-in-final-distribution">
+todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
     <fileset dir=".">
       <include name="**"/>
     </fileset>
   </copy>
-  <move preservelastmodified="true" todir="${dir}/artefacts-${package}-${version}-${stamp}/archive-only-not-in-final-distribution">
+  <move preservelastmodified="true" todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
     <fileset dir="${dir}">
       <include name="*"/>
     </fileset>
@@ -439,12 +439,12 @@ todir="${dir}/artefacts-${package}-${version}-${stamp}/archive-only-not-in-final
 <!--
     Cannot create zip until console log and error exit files added to archive. 
     
-  <delete file="${dir}/artefacts-${package}-${version}-${stamp}.zip"/>
+  <delete file="${dir}/artefacts-${package}-v${version}-${stamp}.zip"/>
 
-  <zip destfile="${dir}/artefacts-${package}-${version}-${stamp}.zip"
-       basedir="${dir}" includes="artefacts-${package}-${version}/**"/>
-  <delete dir="${dir}/artefacts-${package}-${version}-${stamp}"/>
-  <unzip src="${dir}/artefacts-${package}-${version}-${stamp}.zip" 
+  <zip destfile="${dir}/artefacts-${package}-v${version}-${stamp}.zip"
+       basedir="${dir}" includes="artefacts-${package}-v${version}/**"/>
+  <delete dir="${dir}/artefacts-${package}-v${version}-${stamp}"/>
+  <unzip src="${dir}/artefacts-${package}-v${version}-${stamp}.zip" 
          dest="${dir}" />
 -->
   <!--documentation-->

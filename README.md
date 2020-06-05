@@ -14,15 +14,21 @@ Please see the [LICENSE](https://github.com/CraneSoftwrights/ubl-subset-schema/b
 
 ## Further Description of this Repository
 
-Fork this repository in order to create subset XSD and JSON validation artefacts (XSD and JSON) and documentation for either UBL 2.2 or UBL 2.3 CSPRD02.
-
-This repository is for the artefacts:
-- generation of document model information from UBL Google spreadsheets
+Fork this repository in order to create subset XSD and JSON validation artefacts (XSD and JSON) and documentation for either UBL 2.2 or UBL 2.3 CSPRD02 from a subset specification found in online UBL Google spreadsheets:
   - genericode serialization
   - XSD schemas
   - JSON schemas
   - ODS and XLS spreadsheets
   - HTML summary reports with and without indicating excluded UBL components
+
+Engage GitHub Workflow Actions for this repository by going to the "Actions" tab in your repository and giving GitHub permission to run the repository's actions.
+
+Copy the [`subsetUBLSchemas-DBEcore.sh`](subsetUBLSchemas-DBEcore.sh) file to create your own subset generation invocation file along the lines of `subsetUBLSchemas-myProject.sh`.
+
+Modify the [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) invocation to point to your subset generation invocation file `subsetUBLSchemas-myProject.sh` (or whatever it is that you chose).
+
+Do an initial push of these changes to trigger the creation of the DBEcore 0.1 subset schemas and documentation in order to ensure that the process is running before changing your invocation for your own files. After less than 15 minutes download the generated package of schemas and inspect `archive-only-not-in-final-distribution/artefacts.exitcode.*.txt` for successful completion the console report in `archive-only-not-in-final-distribution/artefacts.console.*.txt` for successful completion.
+
 
 The document models in ODF-ODS format being processed into results are downloaded from Google _(Important note: the ODF-ODS files from Microsoft Word or from OpenOffice are bloated and the generation process is slowed by a factor of sometimes up to 10; even if you have maintained the ODS files offline from Google, it will speed the generation process if you take the time to upload your ODS files to Google, convert them into a Google spreadsheet, and then download the Google spreadsheets as the ODS files to put into this repository)_:
 - `UBL-Documents-Google.ods` _(Please see important note above)_
