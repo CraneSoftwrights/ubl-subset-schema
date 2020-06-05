@@ -32,9 +32,23 @@ Do an initial push of these changes to trigger the creation of the DBEcore 0.1 s
 There are three environment variables to set:
 
 `version=0.1`
+
 `libGoogle=`[`https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY`](https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY)
+
 `docGoogle=`[`https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ`](https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ)
 ```
+
+DOCUMENTATION INCOMPLETE!!!!
+
+-----
+
+
+-----
+
+
+-----
+
+
 
 
 
