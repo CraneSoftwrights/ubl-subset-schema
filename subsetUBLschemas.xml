@@ -59,6 +59,7 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   <echo message="stamp=${stamp}"/>
   
   <!--start with the raw files from UBL-->
+  <echo message="Copying UBL directory ubl-${UBLversion}"/>
   <copy preservelastmodified="true" todir="${dir}/ubl-${UBLversion}">
     <fileset dir="ubl-${UBLversion}">
       <include name="**"/>
@@ -74,18 +75,21 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
       <include name="**"/>
     </fileset>
   </copy>
-  <!--next the raw files for the subset-->
+  <!--next the configuration files for the subset-->
+  <echo message="Copying configuration directory ${configdir}"/>
   <copy preservelastmodified="true" todir="${dir}/${configdir}">
     <fileset dir="${configdir}">
       <include name="**"/>
     </fileset>
   </copy>
-  <move preservelastmodified="true" todir="${dir}/${package}-${version}">
+  <!--move the raw files for the subset if any exist-->
+  <move preservelastmodified="true" todir="${dir}/${package}-${version}"
+        failonerror="false">
     <fileset dir="${dir}/${configdir}/raw-${configdir}">
       <include name="**"/>
     </fileset>
   </move>
-  <move preservelastmodified="true" todir="${dir}"
+  <move preservelastmodified="true" todir="${dir}" failonerror="false"
   file="${dir}/${package}-${version}/mod/${configdir}-Entities-${version}.gc"/>
   <delete
         file="${dir}/${package}-${version}/mod/UBL-Entities-${UBLversion}.gc"/>
