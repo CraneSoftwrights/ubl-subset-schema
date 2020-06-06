@@ -61,7 +61,7 @@ There are configuration environment variables to set:
 - a copyright statement asserted regarding the subset being created
 
 `configDirectory=DBEcoreDemo`
-- the subdirectory in which your configuration files are placed
+- the subdirectory in which your configuration files are placed, and the suffix used for all configuration file names
 
 `title=DBEcoreDemo subset of UBL 2.2`
 - the title of your project to put at the top of the HTML documentation reports
@@ -75,7 +75,17 @@ There are configuration environment variables to set:
 `subsetDocsRegex="(^UBL-(RequestForQuotation|Quotation|Order|OrderResponse|OrderChange|OrderCancellation|ApplicationResponse)-2.2$)"`
 - the regular expression against which the documents are checked to be included in the subset generation (note that the document names begin with "UBL-" and end with the UBL version number)
 
-The configuration file must be edited to reflect...
+There are five files in the `{configDirectory}` directory:
+- `{configDirectory}/ident-{configDirectory}.xml`
+  - edit this to specify the identification metadata for the document model genericode file created from the Google spreadsheets
+  - in this demonstration, an entity is used to ensure the same version string is used in multiple places
+- `{configDirectory}/config-{configDirectory}.xml`
+  - edit this to specify the text of the comment that is embedded in each of the generated schema artefacts
+  - for strict subsets, there should be no other changes to the UBL configuration information
+  - for additional schemas being generated, you may need to augment the allowed abbreviations to accommodate your non-UBL information items
+- `{configDirectory}/skeletonDisplayEditSubset-{configDirectory}.ods`
+- `{configDirectory}/massageModelName-{configDirectory}.xml`
+- `{configDirectory}/spellcheck-DBEcoreDemo.txt`
 
 To determine if the generation was successful, look in the `archive-only-not-in-final-distribution` directory for these files summarizing any problems with the process:
 - `artefacts.exitcode.{label}.txt` - exit code from the execution of the Ant build script

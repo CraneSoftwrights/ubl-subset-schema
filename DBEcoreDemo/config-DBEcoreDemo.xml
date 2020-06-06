@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
 [
-<!ENTITY copyrightYear       "2020">
-<!ENTITY versionDate "04 June 2020">
 ]>
 <configuration xmlns:xsd="http://www.w3.org/2001/XMLSchema">
  <ndr>
@@ -77,10 +75,12 @@
  <schema version="2.2">
 <comment>
   Library:           DBEcore Subset Demonstration documents and business objects
+  Package date:      05 June 2020
   Module:            %f
   Generated on:      %z
-  Based on:          OASIS Universal Business Language (UBL) 2.2 CS01
-                     http://docs.oasis-open.org/ubl/cs01-UBL-2.2/
+  Based on:          OASIS Universal Business Language (UBL) 2.2 OS
+                     http://docs.oasis-open.org/ubl/os-UBL-2.2/
+  No copyright asserted on the demonstration subset of the copyrighted UBL.
   Portions copyright (c) OASIS Open.
 </comment>
   <type-documentation>

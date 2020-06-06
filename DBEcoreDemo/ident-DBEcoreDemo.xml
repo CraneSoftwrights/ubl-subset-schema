@@ -4,8 +4,8 @@
 <!ENTITY version "0.1">
 ]>
 <Identification>
-    <ShortName>DBEsubset</ShortName>
-    <LongName>DBE subset model</LongName>
+    <ShortName>DBEsubset Demonstration</ShortName>
+    <LongName>DBE subset demonstration model</LongName>
     <Version>&version;</Version>
     <CanonicalUri>urn:iso:X-DBEsubset</CanonicalUri>
     <CanonicalVersionUri>urn:X-DBEsubset:&version;</CanonicalVersionUri>
