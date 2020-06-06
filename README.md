@@ -39,11 +39,17 @@ Engage GitHub Workflow Actions for this repository by going to the "Actions" tab
 
 Copy the [`subsetUBLSchemas-DBEcoreDemo.sh`](subsetUBLSchemas-DBEcoreDemo.sh) file to create your own subset generation invocation file along the lines of `subsetUBLSchemas-myProject.sh`.
 
-Modify the [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) invocation to point to your subset generation invocation file `subsetUBLSchemas-myProject.sh` (or whatever it is that you chose).
+Modify the [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) invocation to point to your subset generation invocation file `subsetUBLSchemas-myProject.sh` (or whatever it is that you chose). The [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) is an ignored file from git's perspective. It is ignored so that it will not be overwritten when merging central changes into your repository. Should you need to recreate it, this is the typical content of [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) where the bash invocation invokes your invocation script:
 
-Do an initial push of these changes to trigger the creation of the DBEcoreDemo 0.1 subset schemas and documentation in order to ensure that the process is running before changing your invocation for your own files. After less than 15 minutes download the generated package of schemas and inspect `archive-only-not-in-final-distribution/artefacts.exitcode.*.txt` for successful completion the console report in `archive-only-not-in-final-distribution/artefacts.console.*.txt` for successful completion.
+```
+#!/bin/bash
+#
+# This is the invocation that happens in the GitHub action ... it must be bash
+#
+bash subsetUBLSchemas-myProject.sh "$1" "$2" "$3" "$4"
+```
 
-There are configuration environment variables to set:
+There are configuration environment variables to set in your invocation script:
 
 `version=0.1`
 - your package version
@@ -92,6 +98,8 @@ There are five files in the `{configDirectory}` directory:
 - `{configDirectory}/spellcheck-DBEcoreDemo.txt`
   - this need only be changed when creating extension or additional schemas, not subset schemas, and provides a list of allowed words beyond the English dictionary used in spell-checking the dictionary entry names
 
+Do an initial push of these changes to trigger the creation of the DBEcoreDemo 0.1 subset schemas and documentation in order to ensure that the process is running before changing your invocation for your own files. After less than 15 minutes download the generated package of schemas and inspect `archive-only-not-in-final-distribution/artefacts.exitcode.*.txt` for successful completion the console report in `archive-only-not-in-final-distribution/artefacts.console.*.txt` for successful completion.
+
 Every time you do a push in git, the process to create a new set of artefacts is begun.
 
 If you are changing the Google spreadsheet but not any of your repository files, you cannot do a push until you create a temporary file in your directory and then push the temporary file to the repository. The next time around, you can delete the temporary file in your directory and then push the deletion to the repository. Either of these steps will trigger GitHub actions that will reach out to the Google spreadsheet and run the process.
@@ -110,10 +118,6 @@ To determine if the generation was successful, look in the `archive-only-not-in-
 - `check-{package}-{label}-ubl-{UBL-version}.html` - report of any problems with your choices in making the specification
 
 If there are no errors then the genericode file, XSD schemas, JSON schemas, and HTML summary reports all will be generated and found in the ZIP file in the same directories as are used in the UBL distribution.
-
----
-
-Documentation INCOMPLETE!!!
 
 ---
 

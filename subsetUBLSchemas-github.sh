@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #
 # This is the invocation that happens in the GitHub action ... it must be bash
 #
