@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  $Id: massageModelName-2.2.xml,v 1.3 2016/12/07 18:30:06 admin Exp $
-  
   Use this file to express the regular expressions that shorten model
   names in document order and lengthen model names in reverse document order.
 

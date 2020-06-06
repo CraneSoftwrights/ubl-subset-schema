@@ -84,15 +84,32 @@ There are five files in the `{configDirectory}` directory:
   - for strict subsets, there should be no other changes to the UBL configuration information
   - for additional schemas being generated, you may need to augment the allowed abbreviations to accommodate your non-UBL information items
 - `{configDirectory}/skeletonDisplayEditSubset-{configDirectory}.ods`
+  - this is the prototypical spreadsheet template for the header row, each of the component type rows, and the last/end row
+  - the header cell of the subset column needs to be edited to reflect the same cell heading used in the Google spreadsheets
 - `{configDirectory}/massageModelName-{configDirectory}.xml`
+  - this need only be changed when creating extension or additional schemas, not subset schemas, and provides a list of abbreviations needed when translating Google spreadsheet tab names longer than 31 characters
+  - if you are changing between versions of UBL, this file must be updated to reflect the new version
 - `{configDirectory}/spellcheck-DBEcoreDemo.txt`
+  - this need only be changed when creating extension or additional schemas, not subset schemas, and provides a list of allowed words beyond the English dictionary used in spell-checking the dictionary entry names
+
+Every time you do a push in git, the process to create a new set of artefacts is begun.
+
+If you are changing the Google spreadsheet but not any of your repository files, you cannot do a push until you create a temporary file in your directory and then push the temporary file to the repository. The next time around, you can delete the temporary file in your directory and then push the deletion to the repository. Either of these steps will trigger GitHub actions that will reach out to the Google spreadsheet and run the process.
+
+Two examples of the use of temporary files in a shell script are:
+- `touch trigger.txt` - creates the temporary file
+- `rm trigger.txt` - deletes the temporary file
+
+Two examples of the use of temporary files in a DOS script are:
+- `echo >trigger.txt` - creates the temporary file
+- `del trigger.txt` - deletes the temporary file
 
 To determine if the generation was successful, look in the `archive-only-not-in-final-distribution` directory for these files summarizing any problems with the process:
 - `artefacts.exitcode.{label}.txt` - exit code from the execution of the Ant build script
 - `artefacts.console.{label}.txt` - console log of the execution of the Ant build script
 - `check-{package}-{label}-ubl-{UBL-version}.html` - report of any problems with your choices in making the specification
 
-If there are no errors then the XSD schemas, JSON schemas, and HTML reports all will be generated and found in the ZIP file.
+If there are no errors then the genericode file, XSD schemas, JSON schemas, and HTML summary reports all will be generated and found in the ZIP file in the same directories as are used in the UBL distribution.
 
 ---
 
