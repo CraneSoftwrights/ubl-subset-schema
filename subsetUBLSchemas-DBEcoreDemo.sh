@@ -22,14 +22,14 @@ java -Dant.home=utilities/ant -classpath utilities/saxon/saxon.jar:utilities/ant
 serverReturn=${PIPESTATUS[0]}
 
 if [ ! -d $1 ]; then mkdir $1 ; fi
-if [ ! -d $1/artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3 ]; then mkdir $1/artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3 ; fi
-if [ ! -d $1/artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3/archive-only-not-in-final-distribution/ ]; then mkdir $1/artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3/archive-only-not-in-final-distribution/ ; fi
-mv artefacts.console.$3.txt $1/artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3/archive-only-not-in-final-distribution/
-echo $serverReturn >$1/artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3/archive-only-not-in-final-distribution/artefacts.exitcode.$3.txt
+if [ ! -d $1/artefacts-$package-v$version-$3 ]; then mkdir $1/artefacts-$package-v$version-$3 ; fi
+if [ ! -d $1/artefacts-$package-v$version-$3/archive-only-not-in-final-distribution/ ]; then mkdir $1/$package-v$version-$3/archive-only-not-in-final-distribution/ ; fi
+mv artefacts.console.$3.txt $1/artefacts-$package-v$version-$3/archive-only-not-in-final-distribution/
+echo $serverReturn >$1/artefacts-$package-v$version-$3/archive-only-not-in-final-distribution/artefacts.exitcode.$3.txt
 
 # reduce GitHub storage costs by zipping results and deleting intermediate files
 pushd $1
-7z a artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3.zip artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3
+7z a artefacts-$package-v$version-$3.zip artefacts-$package-v$version-$3
 popd
 
 if [ "$1" = "target" ]
@@ -41,7 +41,7 @@ then
 # further reduce GitHub storage costs by deleting repository files
 
 find . -not -name target -not -name .github -maxdepth 1 -exec rm -r -f {} \;
-mv $1/artefacts-DBEcoreDemo-subset-UBL-2.2-v$version-$3.zip .
+mv $1/artefacts-$package-v$version-$3.zip .
 rm -r -f $1
 
 fi

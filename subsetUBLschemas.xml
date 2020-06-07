@@ -59,19 +59,19 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   <echo message="stamp=${stamp}"/>
   
   <!--start with the raw files from UBL-->
-  <echo message="Copying UBL directory ubl-${UBLversion}"/>
-  <copy preservelastmodified="true" todir="${dir}/ubl-${UBLversion}">
-    <fileset dir="ubl-${UBLversion}">
+  <echo message="Copying UBL directory UBL-${UBLversion}"/>
+  <copy preservelastmodified="true" todir="${dir}/UBL-${UBLversion}">
+    <fileset dir="UBL-${UBLversion}">
       <include name="**"/>
     </fileset>
   </copy>
   <copy preservelastmodified="true" todir="${dir}/${package}-${version}">
-    <fileset dir="${dir}/ubl-${UBLversion}/raw-${UBLversion}">
+    <fileset dir="${dir}/UBL-${UBLversion}/raw-${UBLversion}">
       <include name="**"/>
     </fileset>
   </copy>
   <copy preservelastmodified="true" todir="${dir}/${package}-${version}/xsdrt">
-    <fileset dir="ubl-${UBLversion}/raw-${UBLversion}/xsd">
+    <fileset dir="UBL-${UBLversion}/raw-${UBLversion}/xsd">
       <include name="**"/>
     </fileset>
   </copy>
@@ -94,13 +94,13 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   <delete
         file="${dir}/${package}-${version}/mod/UBL-Entities-${UBLversion}.gc"/>
   
-<!--  <copy preservelastmodified="true" todir="${dir}/ubl-${UBLversion}/raw-${UBLversion}">
-    <fileset dir="ubl-${UBLversion}/raw-${UBLversion}">
+<!--  <copy preservelastmodified="true" todir="${dir}/UBL-${UBLversion}/raw-${UBLversion}">
+    <fileset dir="UBL-${UBLversion}/raw-${UBLversion}">
       <include name="**"/>
     </fileset>
   </copy>
-  <copy preservelastmodified="true" todir="${dir}/ubl-${UBLversion}/raw-${UBLversion}/xsdrt">
-    <fileset dir="ubl-${UBLversion}/raw-${UBLversion}/xsd">
+  <copy preservelastmodified="true" todir="${dir}/UBL-${UBLversion}/raw-${UBLversion}/xsdrt">
+    <fileset dir="UBL-${UBLversion}/raw-${UBLversion}/xsd">
       <include name="**"/>
     </fileset>
   </copy>
@@ -169,10 +169,10 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
                unless:set="processFailed">
     <param name="okay"    value="xsd-okay"/><!--not set to force running-->
     <param name="report" 
-           value="${dir}/check-${package}-${stamp}-ubl-${UBLversion}.html"/>
+           value="${dir}/check-${package}-${stamp}-UBL-${UBLversion}.html"/>
     <param name="change" value="${package}"/>
     <param name="compare"
-           value="ubl-${UBLversion}/raw-${UBLversion}/mod/UBL-Entities-${UBLversion}.gc"/>
+           value="UBL-${UBLversion}/raw-${UBLversion}/mod/UBL-Entities-${UBLversion}.gc"/>
     <param name="title"  value="${title}"/>
     <param name="dbcmn"
 value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-library-ent.xml"/>
@@ -344,7 +344,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   <touch file="${dir}/${words}"/>
   <property name="words-uri" location="${dir}/${words}"/>
   <property name="spell-uri"
-         location="${dir}/ubl-${UBLversion}/spellcheck-UBL-${UBLversion}.txt"/>
+         location="${dir}/UBL-${UBLversion}/spellcheck-UBL-${UBLversion}.txt"/>
   <java resultproperty="${returnProperty}" append="true" classname="net.sf.saxon.Transform">
      <arg value="-xsl:${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-checkgc4obdndr.xsl"/>
      <arg value="-o:${report}"/>

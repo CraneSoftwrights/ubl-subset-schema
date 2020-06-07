@@ -1,6 +1,6 @@
 # README
 
-The build process in this repository creates the suite of subset schema artefacts distilled from either UBL 2.2, or UBL 2.3 CSPRD02. It leverages [free developer tools made available by Crane Softwrights Ltd.](http://CraneSoftwrights.com/links/res-git.htm)
+The build process in this repository creates the suite of subset schema artefacts distilled from either UBL 2.1, UBL 2.2, or UBL 2.3 CSPRD02. It leverages [free developer tools made available by Crane Softwrights Ltd.](http://CraneSoftwrights.com/links/res-git.htm)
 
 The demonstration environment provided in this repository is included courtesy of the [DBE Core Oy Finland https://DBEcoreDemo.com](https://dbecore.com) project, with my many thanks.
 
@@ -28,7 +28,7 @@ A presentation outlining the distinctions between structural and value validatio
 
 ## Further Description of this Repository
 
-Fork this repository in order to create subset XSD and JSON validation artefacts (XSD and JSON) and documentation for either UBL 2.2 or UBL 2.3 CSPRD02 from a subset specification found in online UBL Google spreadsheets:
+Fork this repository in order to create subset XSD and JSON validation artefacts (XSD and JSON) and documentation for either UBL 2.1, UBL 2.2, or UBL 2.3 CSPRD02 from a subset specification found in online UBL Google spreadsheets:
   - genericode serialization
   - XSD schemas
   - JSON schemas
@@ -36,18 +36,6 @@ Fork this repository in order to create subset XSD and JSON validation artefacts
   - HTML summary reports with and without indicating excluded UBL components
 
 Engage GitHub Workflow Actions for this repository by going to the "Actions" tab in your repository and giving GitHub permission to run the repository's actions.
-
-Copy the [`subsetUBLSchemas-DBEcoreDemo.sh`](subsetUBLSchemas-DBEcoreDemo.sh) file to create your own subset generation invocation file along the lines of `subsetUBLSchemas-myProject.sh`.
-
-Modify the [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) invocation to point to your subset generation invocation file `subsetUBLSchemas-myProject.sh` (or whatever it is that you chose). The [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) is an ignored file from git's perspective. It is ignored so that it will not be overwritten when merging central changes into your repository. Should you need to recreate it, this is the typical content of [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) where the bash invocation invokes your invocation script:
-
-```
-#!/bin/bash
-#
-# This is the invocation that happens in the GitHub action ... it must be bash
-#
-bash subsetUBLSchemas-myProject.sh "$1" "$2" "$3" "$4"
-```
 
 There are configuration environment variables to set in your invocation script:
 
@@ -58,10 +46,12 @@ There are configuration environment variables to set in your invocation script:
 - the version of UBL (either "2.2" or "2.3") that you are subsetting
 
 `libGoogle=`[`https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY`](https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY)
-- the URL of yur Google spreadsheet for the common library (be sure not to include the "/edit..." at the end of the browser bar)
+- the URL of your Google spreadsheet for the common library (be sure not to include the "/edit..." at the end of the browser bar)
+- see below for choices in starting points for your spreadsheet
 
 `docGoogle=`[`https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ`](https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ)
 - the URL of your Google spreadsheet for the documents (be sure not to include the "/edit..." at the end of the browser bar)
+- see below for choices in starting points for your spreadsheet
 
 `copyright="Subset copyright not asserted; Portions copyright &#169; OASIS Open"`
 - a copyright statement asserted regarding the subset being created
@@ -81,7 +71,28 @@ There are configuration environment variables to set in your invocation script:
 `subsetDocsRegex="(^UBL-(RequestForQuotation|Quotation|Order|OrderResponse|OrderChange|OrderCancellation|ApplicationResponse)-2.2$)"`
 - the regular expression against which the documents are checked to be included in the subset generation (note that the document names begin with "UBL-" and end with the UBL version number)
 
-There are five files in the `{configDirectory}` directory:
+Committee spreadsheets
+  - UBL 2.1 Library Copy: [`https://docs.google.com/spreadsheets/d/15KY7YsYY8pNCC64r3nt4AW433hC7s6hCCynpVmCnQO0`](https://docs.google.com/spreadsheets/d/15KY7YsYY8pNCC64r3nt4AW433hC7s6hCCynpVmCnQO0)
+  - UBL 2.1 Documents Copy: [`https://docs.google.com/spreadsheets/d/1P8ETzVPfY1QU_T5iYpTqGComJFR6bVmsFxIr0KILDas`](https://docs.google.com/spreadsheets/d/1P8ETzVPfY1QU_T5iYpTqGComJFR6bVmsFxIr0KILDas)
+  - UBL 2.2 Library Copy: [`https://docs.google.com/spreadsheets/d/1Bisru_h_RAZJMJG8mN5_1067sfQvQNDPnkRNjl4vbGw`](https://docs.google.com/spreadsheets/d/1Bisru_h_RAZJMJG8mN5_1067sfQvQNDPnkRNjl4vbGw)
+  - UBL 2.2 Documents Copy: [`https://docs.google.com/spreadsheets/d/1zMZNuEhGhH0Tdgs80AANnlS2tvC0abruB4htWP0Y_3c`](https://docs.google.com/spreadsheets/d/1zMZNuEhGhH0Tdgs80AANnlS2tvC0abruB4htWP0Y_3c)
+  - UBL 2.3 CSPRD02 Library Copy: [`https://docs.google.com/spreadsheets/d/1Nbed9CPh-I0PP4Om-d_D0CE8WK1bHH2u86Fn0jiMlvg`](https://docs.google.com/spreadsheets/d/1Nbed9CPh-I0PP4Om-d_D0CE8WK1bHH2u86Fn0jiMlvg)
+  - UBL 2.3 CSPRD02 Documents Copy: [`https://docs.google.com/spreadsheets/d/1cRmtbem2OARa3UKxt_550dMDvva_XdXFhW6UUUZA5vw`](https://docs.google.com/spreadsheets/d/1cRmtbem2OARa3UKxt_550dMDvva_XdXFhW6UUUZA5vw)
+
+Subset demonstration/test spreadsheets
+  - UBL 2.1 Library Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1Hh9g4FJPp4R_K1Mj0dtF2k9ALBXpsT-YexQH56PgS3A`](https://docs.google.com/spreadsheets/d/1Hh9g4FJPp4R_K1Mj0dtF2k9ALBXpsT-YexQH56PgS3A)
+  - UBL 2.1 Documents Demonstration/Test: [`https://docs.google.com/spreadsheets/d/11l-Rl-TS_JuxqVOthHqdF9hn1FsC96Bxl_YDWsk5BsA`](https://docs.google.com/spreadsheets/d/11l-Rl-TS_JuxqVOthHqdF9hn1FsC96Bxl_YDWsk5BsA)
+  - UBL 2.2 Library Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY`](https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY)
+  - UBL 2.2 Documents Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ`](https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ)
+  - UBL 2.3 CSPRD02 Library Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1WSxDbt-VkjHHOZ6iX6PnjfCa4p76lEoPW-mKC1DR-IM`](https://docs.google.com/spreadsheets/d/1WSxDbt-VkjHHOZ6iX6PnjfCa4p76lEoPW-mKC1DR-IM)
+  - UBL 2.3 CSPRD02 Documents Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro`](https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro)
+
+There are three demonstration configuration directories:
+- UBL 2.1 - `UBL-2.1-Demo`
+- UBL 2.2 - `DBEcoreDemo`
+- UBL 2.3 - `UBL-2.3-Demo`
+
+There are five files in a `{configDirectory}` directory:
 - `{configDirectory}/ident-{configDirectory}.xml`
   - edit this to specify the identification metadata for the document model genericode file created from the Google spreadsheets
   - in this demonstration, an entity is used to ensure the same version string is used in multiple places
@@ -97,6 +108,23 @@ There are five files in the `{configDirectory}` directory:
   - if you are changing between versions of UBL, this file must be updated to reflect the new version
 - `{configDirectory}/spellcheck-DBEcoreDemo.txt`
   - this need only be changed when creating extension or additional schemas, not subset schemas, and provides a list of allowed words beyond the English dictionary used in spell-checking the dictionary entry names
+
+There are three demonstration invocation scripts:
+- UBL 2.1 - `subsetUBLSchemas-UBL-2.1-Demo.sh`
+- UBL 2.2 - `subsetUBLSchemas-DBEcoreDemo.sh`
+- UBL 2.3 - `subsetUBLSchemas-UBL-2.3-Demo.sh`
+
+Copy the appropriate script file to create your own subset generation invocation file along the lines of `subsetUBLSchemas-myProject.sh`.
+
+Modify the [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) invocation to point to your subset generation invocation file `subsetUBLSchemas-myProject.sh` (or whatever it is that you chose). The [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) is an ignored file from git's perspective. It is ignored so that it will not be overwritten when merging central changes into your repository. Should you need to recreate it, this is the typical content of [`subsetUBLSchemas-github.sh`](subsetUBLSchemas-github.sh) where the bash invocation invokes your invocation script:
+
+```
+#!/bin/bash
+#
+# This is the invocation that happens in the GitHub action ... it must be bash
+#
+bash subsetUBLSchemas-myProject.sh "$1" "$2" "$3" "$4"
+```
 
 Do an initial push of these changes to trigger the creation of the DBEcoreDemo 0.1 subset schemas and documentation in order to ensure that the process is running before changing your invocation for your own files. After less than 15 minutes download the generated package of schemas and inspect `archive-only-not-in-final-distribution/artefacts.exitcode.*.txt` for successful completion the console report in `archive-only-not-in-final-distribution/artefacts.console.*.txt` for successful completion.
 
