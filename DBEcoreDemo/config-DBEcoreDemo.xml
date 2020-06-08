@@ -153,7 +153,7 @@ namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
       <file type="QDT" name="UBL-QualifiedDataTypes-2.2.json"
             syntax="JSON"
 namespace="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDataTypes-2"/>
-      <file type="UDT" name="UBL-UnqualifiedDataTypes-2.2.json"
+      <file type="UDT" name="BDNDR-UnqualifiedDataTypes-1.1.json"
             syntax="JSON"
 namespace="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2"/>
       <file type="EXT" name="UBL-CommonExtensionComponents-2.2.json"
