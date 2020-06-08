@@ -71,9 +71,18 @@ There are configuration environment variables to set in your invocation script:
 
 `subsetColumn=DBEcoreDemoSubset`
 - the name of the column of your spreadsheets that specifies the particular subset being built
+- the subset is specified by indicating the item's cardinality in the subset, or leaving the row blank to indicate no change in the cardinality
+  - if the existing cardinality is "0..1" the new can be "0", "0..1", or "1"
+  - if the existing cardinality is "1" the new must be "1" and not anything else
+  - if the existing cardinality is "0..n" the new can be "0", "0..1", "1", "0..1", or "0..n"
+  - if the existing cardinality is "1..n" the new can be "1" or "1..n"
+  - when you specify "0", the item is removed entirely from the schema
+  - when you specify "0" for every item in a given class or ABIE, you will get an error message because you are forcing the user to create an empty element and empty elements are not allowed by the OASIS Business Document Naming and Design Rules; you must give the user an opportunity to define the content of an element, and, moreover, it is good style that when there is only one item remaining in a class subset that that element be made mandatory
 
 `subsetDocsRegex="(^UBL-(RequestForQuotation|Quotation|Order|OrderResponse|OrderChange|OrderCancellation|ApplicationResponse)-2.2$)"`
 - the regular expression against which the documents are checked to be included in the subset generation (note that the document names begin with "UBL-" and end with the UBL version number)
+- only schemas for the listed names will be generated; if you don't list the name then you won't get the schema
+- this is a regular expression, so you can use wild cards, for example, to get all documents use `subsetDocsRegex=".*"`
 
 Committee spreadsheets
   - UBL 2.1 Library Copy:
