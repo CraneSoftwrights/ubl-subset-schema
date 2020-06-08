@@ -76,25 +76,37 @@ There are configuration environment variables to set in your invocation script:
 - the regular expression against which the documents are checked to be included in the subset generation (note that the document names begin with "UBL-" and end with the UBL version number)
 
 Committee spreadsheets
-  - UBL 2.1 Library Copy: [`https://docs.google.com/spreadsheets/d/15KY7YsYY8pNCC64r3nt4AW433hC7s6hCCynpVmCnQO0`](https://docs.google.com/spreadsheets/d/15KY7YsYY8pNCC64r3nt4AW433hC7s6hCCynpVmCnQO0)
-  - UBL 2.1 Documents Copy: [`https://docs.google.com/spreadsheets/d/1P8ETzVPfY1QU_T5iYpTqGComJFR6bVmsFxIr0KILDas`](https://docs.google.com/spreadsheets/d/1P8ETzVPfY1QU_T5iYpTqGComJFR6bVmsFxIr0KILDas)
-  - UBL 2.2 Library Copy: [`https://docs.google.com/spreadsheets/d/1Bisru_h_RAZJMJG8mN5_1067sfQvQNDPnkRNjl4vbGw`](https://docs.google.com/spreadsheets/d/1Bisru_h_RAZJMJG8mN5_1067sfQvQNDPnkRNjl4vbGw)
-  - UBL 2.2 Documents Copy: [`https://docs.google.com/spreadsheets/d/1zMZNuEhGhH0Tdgs80AANnlS2tvC0abruB4htWP0Y_3c`](https://docs.google.com/spreadsheets/d/1zMZNuEhGhH0Tdgs80AANnlS2tvC0abruB4htWP0Y_3c)
-  - UBL 2.3 CSPRD02 Library Copy: [`https://docs.google.com/spreadsheets/d/1Nbed9CPh-I0PP4Om-d_D0CE8WK1bHH2u86Fn0jiMlvg`](https://docs.google.com/spreadsheets/d/1Nbed9CPh-I0PP4Om-d_D0CE8WK1bHH2u86Fn0jiMlvg)
-  - UBL 2.3 CSPRD02 Documents Copy: [`https://docs.google.com/spreadsheets/d/1cRmtbem2OARa3UKxt_550dMDvva_XdXFhW6UUUZA5vw`](https://docs.google.com/spreadsheets/d/1cRmtbem2OARa3UKxt_550dMDvva_XdXFhW6UUUZA5vw)
+  - UBL 2.1 Library Copy:
+    -  [`https://docs.google.com/spreadsheets/d/15KY7YsYY8pNCC64r3nt4AW433hC7s6hCCynpVmCnQO0`](https://docs.google.com/spreadsheets/d/15KY7YsYY8pNCC64r3nt4AW433hC7s6hCCynpVmCnQO0)
+  - UBL 2.1 Documents Copy:
+    - [`https://docs.google.com/spreadsheets/d/1P8ETzVPfY1QU_T5iYpTqGComJFR6bVmsFxIr0KILDas`](https://docs.google.com/spreadsheets/d/1P8ETzVPfY1QU_T5iYpTqGComJFR6bVmsFxIr0KILDas)
+  - UBL 2.2 Library Copy:
+    - [`https://docs.google.com/spreadsheets/d/1Bisru_h_RAZJMJG8mN5_1067sfQvQNDPnkRNjl4vbGw`](https://docs.google.com/spreadsheets/d/1Bisru_h_RAZJMJG8mN5_1067sfQvQNDPnkRNjl4vbGw)
+  - UBL 2.2 Documents Copy:
+    - [`https://docs.google.com/spreadsheets/d/1zMZNuEhGhH0Tdgs80AANnlS2tvC0abruB4htWP0Y_3c`](https://docs.google.com/spreadsheets/d/1zMZNuEhGhH0Tdgs80AANnlS2tvC0abruB4htWP0Y_3c)
+  - UBL 2.3 CSPRD02 Library Copy:
+    - [`https://docs.google.com/spreadsheets/d/1Nbed9CPh-I0PP4Om-d_D0CE8WK1bHH2u86Fn0jiMlvg`](https://docs.google.com/spreadsheets/d/1Nbed9CPh-I0PP4Om-d_D0CE8WK1bHH2u86Fn0jiMlvg)
+  - UBL 2.3 CSPRD02 Documents Copy:
+    - [`https://docs.google.com/spreadsheets/d/1cRmtbem2OARa3UKxt_550dMDvva_XdXFhW6UUUZA5vw`](https://docs.google.com/spreadsheets/d/1cRmtbem2OARa3UKxt_550dMDvva_XdXFhW6UUUZA5vw)
 
 Subset demonstration/test spreadsheets
-  - UBL 2.1 Library Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1Hh9g4FJPp4R_K1Mj0dtF2k9ALBXpsT-YexQH56PgS3A`](https://docs.google.com/spreadsheets/d/1Hh9g4FJPp4R_K1Mj0dtF2k9ALBXpsT-YexQH56PgS3A)
-  - UBL 2.1 Documents Demonstration/Test: [`https://docs.google.com/spreadsheets/d/11l-Rl-TS_JuxqVOthHqdF9hn1FsC96Bxl_YDWsk5BsA`](https://docs.google.com/spreadsheets/d/11l-Rl-TS_JuxqVOthHqdF9hn1FsC96Bxl_YDWsk5BsA)
-  - UBL 2.2 Library Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY`](https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY)
-  - UBL 2.2 Documents Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ`](https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ)
-  - UBL 2.3 CSPRD02 Library Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1WSxDbt-VkjHHOZ6iX6PnjfCa4p76lEoPW-mKC1DR-IM`](https://docs.google.com/spreadsheets/d/1WSxDbt-VkjHHOZ6iX6PnjfCa4p76lEoPW-mKC1DR-IM)
-  - UBL 2.3 CSPRD02 Documents Demonstration/Test: [`https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro`](https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro)
+  - UBL 2.1 Library Demonstration/Test:
+    - [`https://docs.google.com/spreadsheets/d/1Hh9g4FJPp4R_K1Mj0dtF2k9ALBXpsT-YexQH56PgS3A`](https://docs.google.com/spreadsheets/d/1Hh9g4FJPp4R_K1Mj0dtF2k9ALBXpsT-YexQH56PgS3A)
+  - UBL 2.1 Documents Demonstration/Test:
+    - [`https://docs.google.com/spreadsheets/d/11l-Rl-TS_JuxqVOthHqdF9hn1FsC96Bxl_YDWsk5BsA`](https://docs.google.com/spreadsheets/d/11l-Rl-TS_JuxqVOthHqdF9hn1FsC96Bxl_YDWsk5BsA)
+  - UBL 2.2 Library Demonstration/Test:
+    - [`https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY`](https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY)
+  - UBL 2.2 Documents Demonstration/Test:
+    - [`https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ`](https://docs.google.com/spreadsheets/d/1Q_-5hKiUkshJP-3yEI00NTmIf0r5I091nYRNWxxksPQ)
+  - UBL 2.3 CSPRD02 Library Demonstration/Test:
+    - [`https://docs.google.com/spreadsheets/d/1WSxDbt-VkjHHOZ6iX6PnjfCa4p76lEoPW-mKC1DR-IM`](https://docs.google.com/spreadsheets/d/1WSxDbt-VkjHHOZ6iX6PnjfCa4p76lEoPW-mKC1DR-IM)
+  - UBL 2.3 CSPRD02 Documents Demonstration/Test:
+    - [`https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro`](https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro)
 
 There are three demonstration configuration directories:
 - UBL 2.1 - `UBL-2.1-Demo`
 - UBL 2.2 - `DBEcoreDemo`
-- UBL 2.3 - `UBL-2.3-Demo`
+- UBL 2.3 CSPRD02 - `UBL-2.3-CSPRD02-Demo`
 
 There are five files in a `{configDirectory}` directory:
 - `{configDirectory}/ident-{configDirectory}.xml`
@@ -116,7 +128,7 @@ There are five files in a `{configDirectory}` directory:
 There are three demonstration invocation scripts:
 - UBL 2.1 - `subsetUBLSchemas-UBL-2.1-Demo.sh`
 - UBL 2.2 - `subsetUBLSchemas-DBEcoreDemo.sh`
-- UBL 2.3 - `subsetUBLSchemas-UBL-2.3-Demo.sh`
+- UBL 2.3 CSPRD02 - `subsetUBLSchemas-UBL-2.3-CSPRD02-Demo.sh`
 
 Copy the appropriate script file to create your own subset generation invocation file along the lines of `subsetUBLSchemas-myProject.sh`.
 

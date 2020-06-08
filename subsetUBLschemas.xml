@@ -82,15 +82,8 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
       <include name="**"/>
     </fileset>
   </copy>
-  <!--move the raw files for the subset if any exist-->
-  <move preservelastmodified="true" todir="${dir}/${package}-${version}"
-        failonerror="false">
-    <fileset dir="${dir}/${configdir}/raw-${configdir}">
-      <include name="**"/>
-    </fileset>
-  </move>
   <move preservelastmodified="true" todir="${dir}" failonerror="false"
-  file="${dir}/${package}-${version}/mod/${configdir}-Entities-${version}.gc"/>
+  file="${dir}/${configdir}/${configdir}-Entities-${version}.gc"/>
   <delete
         file="${dir}/${package}-${version}/mod/UBL-Entities-${UBLversion}.gc"/>
 
@@ -129,13 +122,22 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
             location="${configdir}/massageModelName-${configdir}.xml"/>
   <property name="ident-uri"
             location="${configdir}/ident-${configdir}.xml"/>
-  <antcall target="-ods2gc" unless:set="processFailed">
+  <antcallback target="-ods2gc" unless:set="processFailed" return="returnGC2ODS">
     <param name="okay"   value="gc-okay"/>
     <param name="source" value="${dir}/UBL-Library-Google.ods,${dir}/UBL-Documents-Google.ods"/>
     <param name="target" value="${dir}/${configdir}-Entities-${version}.gc"/>
     <param name="identification-uri" value="${ident-uri}"/>
     <param name="lengthen-model-name-uri" value="${lengthen-uri}"/>
-  </antcall>
+    <param name="returnProperty" value="returnGC2ODS"/>
+  </antcallback>
+  <condition property="processFailed">
+    <and>
+      <isset property="returnGC2ODS"/>
+      <not>
+        <equals arg1="${returnGC2ODS}" arg2="0"/>
+      </not>
+    </and>
+  </condition>
   <condition property="processFailed">
     <not>
       <available file="${dir}/${configdir}-Entities-${version}.gc"/>
@@ -143,6 +145,8 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   </condition>
 
   <!--create XSD files--><!--against UBL ${UBLversion}-->
+  <propertyregex property="UBLversionBase" input="${UBLversion}"
+                 regexp="^(\d\.\d)" select="\1" casesensitive="true"/>
   <antcallback target="-gc2ndr" return="returnNDR"
                unless:set="processFailed">
     <param name="okay"    value="xsd-okay"/><!--not set to force running-->
@@ -163,7 +167,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
     <param name="config"  value="${configdir}/config-${configdir}.xml"/>
     <param name="basecfg" value=""/>
     <param name="basegc"  value=""/>
-    <param name="library"  value="UBL-CommonLibrary-${UBLversion}"/>
+    <param name="library"  value="UBL-CommonLibrary-${UBLversionBase}"/>
     <param name="subsets" value="${subset-model-regex}"/>
     <param name="subsCol" value="${subset-column-name}"/>
     <param name="fatal"   value="yes"/>
@@ -268,7 +272,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
 <target name="-ods2gc" unless="${okay}">
   <delete file="${target}"/>
   <echo message='Rebuilding "${target}" GC file...'/>
-  <java append="true" classname="net.sf.saxon.Transform">
+  <java resultProperty="returnODS" append="true" classname="net.sf.saxon.Transform">
      <arg value="-xsl:${utilitydir}Crane-ods2obdgc-${ods2obdgc}/Crane-ods2obdgc.xsl"/>
      <arg value="-o:${target}"/>
      <arg value="-it:ods-uri"/>
@@ -278,6 +282,14 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   </java>
   <available property="done" file="${target}"/>
   <echo unless:set="done" message="Unable to create GC file: ${target}"/>
+  <condition property="${returnProperty}">
+    <and>
+      <isset property="returnODS"/>
+      <not>
+        <equals arg1="${returnODS}" arg2="0"/>
+      </not>
+    </and>
+  </condition>
 </target>
 
 <target name="-gc2ods" unless="${okay}">
@@ -427,20 +439,22 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   <touch if:set="skip-html-generation" file="${dir}/artefacts-${package}-v${version}-${stamp}/HTML-FILES-NOT-GENERATED.txt"/>
   <mkdir dir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution"/>
 
-  <copy preservelastmodified="true" 
+  <copy preservelastmodified="true" includeEmptyDirs="false"
 todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
     <fileset dir=".">
       <include name="**"/>
     </fileset>
   </copy>
-  <move preservelastmodified="true" todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
+  <move preservelastmodified="true" includeEmptyDirs="false"
+todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
     <fileset dir="${dir}">
       <include name="*"/>
+      <exclude name="artefacts.*.txt"/>
     </fileset>
   </move>
 
   <!--remove unneeded files to reduce storage burden-->
-  <delete dir="${dir}/${package}"/>
+  <delete dir="${dir}/${package}-${version}"/>
   
 <!--
     Cannot create zip until console log and error exit files added to archive. 
