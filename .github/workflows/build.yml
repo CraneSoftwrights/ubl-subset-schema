@@ -22,7 +22,7 @@ jobs:
 
       run: |
         mkdir target
-        timestamp=$(date -u +%Y%m%d-%H%M)
+        timestamp=$(date -u +%Y%m%d-%H%M%S)
         echo "::set-env name=TIMESTAMP::${timestamp}"
         bash subsetUBLSchemas-github.sh target github ${timestamp}z DELETE-REPOSITORY-FILES-AS-WELL
 

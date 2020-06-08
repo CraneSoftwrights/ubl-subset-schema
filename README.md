@@ -173,6 +173,10 @@ To determine if the generation was successful, look in the `archive-only-not-in-
 
 If there are no errors then the genericode file, XSD schemas, JSON schemas, and HTML summary reports all will be generated and found in the ZIP file in the same directories as are used in the UBL distribution.
 
+## Still to do
+
+1. improve analysis and check reporting
+
 ---
 
 ## Contact
