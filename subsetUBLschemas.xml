@@ -66,12 +66,12 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
     </fileset>
   </copy>
   <copy preservelastmodified="true" todir="${dir}/${package}-${version}">
-    <fileset dir="${dir}/UBL-${UBLversion}/raw-${UBLversion}">
+    <fileset dir="${dir}/UBL-${UBLversion}">
       <include name="**"/>
     </fileset>
   </copy>
   <copy preservelastmodified="true" todir="${dir}/${package}-${version}/xsdrt">
-    <fileset dir="UBL-${UBLversion}/raw-${UBLversion}/xsd">
+    <fileset dir="UBL-${UBLversion}/xsd">
       <include name="**"/>
     </fileset>
   </copy>
@@ -93,28 +93,6 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   file="${dir}/${package}-${version}/mod/${configdir}-Entities-${version}.gc"/>
   <delete
         file="${dir}/${package}-${version}/mod/UBL-Entities-${UBLversion}.gc"/>
-  
-<!--  <copy preservelastmodified="true" todir="${dir}/UBL-${UBLversion}/raw-${UBLversion}">
-    <fileset dir="UBL-${UBLversion}/raw-${UBLversion}">
-      <include name="**"/>
-    </fileset>
-  </copy>
-  <copy preservelastmodified="true" todir="${dir}/UBL-${UBLversion}/raw-${UBLversion}/xsdrt">
-    <fileset dir="UBL-${UBLversion}/raw-${UBLversion}/xsd">
-      <include name="**"/>
-    </fileset>
-  </copy>
-  <!-\-next the raw files from the subset-\->
-  <copy preservelastmodified="true" todir="${dir}/${configdir}">
-    <fileset dir="${configdir}">
-      <include name="**"/>
-    </fileset>
-  </copy>
-  <copy preservelastmodified="true" todir="${dir}">
-    <fileset dir="${configdir}/raw-${configdir}/mod">
-      <include name="${configdir}-Entities-${version}.gc"/>
-    </fileset>
-  </copy>-->
 
   <!--create GC files for subset-->
   <delete file="${dir}/${configdir}-Entities-${version}.gc"
@@ -165,14 +143,14 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   </condition>
 
   <!--create XSD files--><!--against UBL ${UBLversion}-->
-  <antcallback target="-gc2ndr" return="returnVersion"
+  <antcallback target="-gc2ndr" return="returnNDR"
                unless:set="processFailed">
     <param name="okay"    value="xsd-okay"/><!--not set to force running-->
     <param name="report" 
            value="${dir}/check-${package}-${stamp}-UBL-${UBLversion}.html"/>
     <param name="change" value="${package}"/>
     <param name="compare"
-           value="UBL-${UBLversion}/raw-${UBLversion}/mod/UBL-Entities-${UBLversion}.gc"/>
+           value="UBL-${UBLversion}/mod/UBL-Entities-${UBLversion}.gc"/>
     <param name="title"  value="${title}"/>
     <param name="dbcmn"
 value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-library-ent.xml"/>
@@ -189,13 +167,13 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
     <param name="subsets" value="${subset-model-regex}"/>
     <param name="subsCol" value="${subset-column-name}"/>
     <param name="fatal"   value="yes"/>
-    <param name="returnProperty" value="returnVersion"/>
+    <param name="returnProperty" value="returnNDR"/>
   </antcallback>
   <condition property="processFailed">
     <and>
-      <isset property="returnVersion"/>
+      <isset property="returnNDR"/>
       <not>
-        <equals arg1="${returnVersion}" arg2="0"/>
+        <equals arg1="${returnNDR}" arg2="0"/>
       </not>
     </and>
   </condition>
@@ -344,8 +322,8 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   <touch file="${dir}/${words}"/>
   <property name="words-uri" location="${dir}/${words}"/>
   <property name="spell-uri"
-         location="${dir}/UBL-${UBLversion}/spellcheck-UBL-${UBLversion}.txt"/>
-  <java resultproperty="${returnProperty}" append="true" classname="net.sf.saxon.Transform">
+         location="${dir}/${configdir}/spellcheck-${configdir}.txt"/>
+  <java resultproperty="returnCheck" append="true" classname="net.sf.saxon.Transform">
      <arg value="-xsl:${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-checkgc4obdndr.xsl"/>
      <arg value="-o:${report}"/>
      <arg value="-s:${source}"/>
@@ -362,18 +340,34 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
      <arg value="--suppressXsltNamespaceCheck:on"/>
      <arg value="errors-are-fatal=${fatal}"/>
   </java>
-  <echo message="Spell-checking the resulting word list into ${dir}/unexpectedWords.txt (run aspell -l EN -p ${spell-uri} check ${words-uri} if abend)..."/>
-  <exec executable="sh">
+  <condition property="${returnProperty}">
+    <and>
+      <isset property="returnCheck"/>
+      <not>
+        <equals arg1="${returnCheck}" arg2="0"/>
+      </not>
+    </and>
+  </condition>
+  <echo unless:set="${returnProperty}" message="Spell-checking the resulting word list into ${dir}/unexpectedWords.txt (run aspell -l EN -p ${spell-uri} check ${words-uri} if abend)..."/>
+  <exec unless:set="${returnProperty}" resultproperty="returnSpell" executable="sh">
     <arg value="-e"/>
     <arg value="-c"/>
     <arg value='aspell -l EN -p ${spell-uri} list &lt;${words-uri} | tee ${dir}/unexpectedWords.txt | wc -w | sed "s/ //g" | grep "^0$"'/>
   </exec>
+  <condition property="${returnProperty}">
+    <and>
+      <isset property="returnSpell"/>
+      <not>
+        <equals arg1="${returnSpell}" arg2="0"/>
+      </not>
+    </and>
+  </condition>
 </target>
 
 <target name="-gc2ndr" unless="${okay}">
   <antcallback target="-gc2ndr-check-only" return="${returnProperty}"/>
-  <echo message='Creating XSD/JSON from "${source}" GC file...'/>
-  <java append="true" classname="net.sf.saxon.Transform">
+  <echo unless:set="${returnProperty}" message='Creating XSD/JSON from "${source}" GC file...'/>
+  <java unless:set="${returnProperty}" resultproperty="returnNDRgen" append="true" classname="net.sf.saxon.Transform">
      <arg value="-xsl:${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-gc2obdndr.xsl"/>
      <arg value="-s:${source}"/>
      <arg value="-o:${dir}/${package}-${version}/junk.out"/>
@@ -387,6 +381,14 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
      <arg value="--suppressXsltNamespaceCheck:on"/>
      <arg value="extensions-for-abies=${abieExtensions}"/>
   </java>
+  <condition property="${returnProperty}">
+    <and>
+      <isset property="returnNDRgen"/>
+      <not>
+        <equals arg1="${returnNDRgen}" arg2="0"/>
+      </not>
+    </and>
+  </condition>
 </target>
   
 <target name="-gc2html" unless="${okay}">
