@@ -24,6 +24,10 @@ The three sets of artefacts identified in the diagram are numbered as follows:
 1. The subset UBL schemas supporting only the constructs needed for XML generation, optionally used to structurally-validate the output before it is sent to the recipient.
 1. The additional value constraints expressed in XSLT and authored using technologies such as ISO/IEC 19757-3 Schematron, OASIS Context/Value Association (CVA), OASIS genericode, or other means, used both to pre-validate the value constraints before the document is sent to the recipient, and to validate the value constraints after the document is received by the recipient.
 
+A subset schema can be useful in the synthesis of program code that is used by an application to create UBL business objects as needed for the particular subset. An example would be in the compilation of Java classes from XSD schema fragments. The subset schema may be useful as a cross-check of UBL instances being created by the application, however, if the application is trusted, the subset schema validation is optional. The recipient may very well be unaware of the subset schema, but even if it is known, it is typical for the recipient to use the full UBL schemas so as not to reject an incoming UBL instance that has more than what the subset dictates.
+
+Note how the role of the validation XSLT is recommended for the outgoing instance as a sanity check. The recipient will be using the validation XSLT themselves so there is a level of confidence if the sender uses it as well before the document is sent.
+
 A presentation outlining the distinctions between structural and value validation, and the distinctions between W3C Schema and ISO/IEC Schematron is found [here](https://docs.google.com/presentation/d/1KWxFI8Niimv1hoB50L9bDsuMgN_vCjzUDXbct6QG-DA/view).
 
 ## Further Description of this Repository
