@@ -62,6 +62,7 @@ There are configuration environment variables to set in your invocation script:
 
 `configDirectory=DBEcoreDemo`
 - the subdirectory in which your configuration files are placed, and the suffix used for all configuration file names
+- the configuration subdirectory cannot begin with "`UBL-`" as this is reserved for copies of the committee files
 
 `title=DBEcoreDemo subset of UBL 2.2`
 - the title of your project to put at the top of the HTML documentation reports
@@ -72,12 +73,12 @@ There are configuration environment variables to set in your invocation script:
 `subsetColumn=DBEcoreDemoSubset`
 - the name of the column of your spreadsheets that specifies the particular subset being built
 - the subset is specified by indicating the item's cardinality in the subset, or leaving the row blank to indicate no change in the cardinality
-  - if the existing cardinality is "0..1" the new can be "0", "0..1", or "1"
-  - if the existing cardinality is "1" the new must be "1" and not anything else
-  - if the existing cardinality is "0..n" the new can be "0", "0..1", "1", "0..1", or "0..n"
-  - if the existing cardinality is "1..n" the new can be "1" or "1..n"
-  - when you specify "0", the item is removed entirely from the schema
-  - when you specify "0" for every item in a given class or ABIE, you will get an error message because you are forcing the user to create an empty element and empty elements are not allowed by the OASIS Business Document Naming and Design Rules; you must give the user an opportunity to define the content of an element, and, moreover, it is good style that when there is only one item remaining in a class subset that that element be made mandatory
+  - if the existing cardinality is "`0..1`" the new can be "`0`", "`0..1`", "`1`", or blank
+  - if the existing cardinality is "`1`" the new must be "`1`" or blank and not anything else
+  - if the existing cardinality is "`0..n`" the new can be "`0`", "`0..1`", "`1`", "`0..1`", "`0..n`", or blank
+  - if the existing cardinality is "`1..n`" the new can be "`1`", "`1..n`", or blank
+  - when you specify "`0`", the item is removed entirely from the schema
+  - when you specify "`0`" for every item in a given class or ABIE, you will get an error message because you are forcing the user to create an empty element and empty elements are not allowed by the OASIS Business Document Naming and Design Rules; you must give the user an opportunity to define the content of an element, and, moreover, it is good style that when there is only one item remaining in a class subset that that element be made mandatory
 
 `subsetDocsRegex="(^UBL-(RequestForQuotation|Quotation|Order|OrderResponse|OrderChange|OrderCancellation|ApplicationResponse)-2.2$)"`
 - the regular expression against which the documents are checked to be included in the subset generation (note that the document names begin with "UBL-" and end with the UBL version number)
@@ -113,9 +114,9 @@ Subset demonstration/test spreadsheets
     - [`https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro`](https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro)
 
 There are three demonstration configuration directories:
-- UBL 2.1 - `UBL-2.1-Demo/`
+- UBL 2.1 - `DemoUBL21Subset/`
 - UBL 2.2 - `DBEcoreDemo/`
-- UBL 2.3 CSPRD02 - `UBL-2.3-CSPRD02-Demo/`
+- UBL 2.3 CSPRD02 - `DemoUBL23CSPRD02Subset/`
 
 There are five files in a `{configDirectory}` directory, each suffixed with a repeat of the directory name:
 - `{configDirectory}/ident-{configDirectory}.xml`

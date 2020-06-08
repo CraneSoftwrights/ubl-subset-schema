@@ -28,17 +28,18 @@
   <echo message="dir=${dir}"/>
   <echo message="utilitydir=${utilitydir}"/>
   <echo message="thisdir=${thisdir}"/>
+  <echo message="configdir=${configdir}"/>
   <echo message="UBLversion=${UBLversion}"/>
   <echo message="abieExtensions=${abieExtensions}"/>
   <!--test skip-gc.txt to preserve the old genericode model file-->
   <available property="skip-gc-generation" file="skip-gc.txt"/>
-  <echo if:set="skip-gc-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: ${configdir}-Entities-${version}.gc not being generated from the given spreadsheets; delete skip-gc.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
+  <echo if:set="skip-gc-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: UBL-Entities-${configdir}.gc not being generated from the given spreadsheets; delete skip-gc.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
   <!--test skip-spreadsheet.txt for no spreadsheets-->
-  <available property="skip-spreadsheet-generation" file="skip-spreadsheets.txt"/>
-  <echo if:set="skip-spreadsheet-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: ODS and XLS spreadsheets not being generated from ${configdir}-Entities-${version}.gc ; delete skip-spreadsheets.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
+  <available property="skip-spreadsheet-generation" file="skip-ss.txt"/>
+  <echo if:set="skip-spreadsheet-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: ODS and XLS spreadsheets not being generated from UBL-Entities-${configdir}.gc ; delete skip-spreadsheets.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
   <!--test skip-html.txt for no HTML-->
   <available property="skip-html-generation" file="skip-html.txt"/>
-  <echo if:set="skip-html-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: HTML reports not being generated from ${configdir}-Entities-${version}.gc; delete skip-html.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
+  <echo if:set="skip-html-generation" message="!!!!!!!!!!!!!! Incomplete execution requested: HTML reports not being generated from UBL-Entities-${configdir}.gc; delete skip-html.txt to restore normal operation!!!!!!!!!!!!!!!!"/>
   
   <available property="gc2obdndr-exists"
          file="${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-gc2obdndr.xsl"/>
@@ -52,12 +53,18 @@ file="${utilitydir}Crane-ods2obdgc-${ods2obdgc}/Crane-ods2obdgc.xsl"/>
 file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   <echo unless:set="gc2odsxml-exists" 
         message="Cannot find gc2odsxml=${gc2odsxml}"/>
-  
+
   <echo message="subset-model-regex=${subset-model-regex}"/>
   <echo message="subset-column-name=${subset-column-name}"/>
   <echo message="version=${version}"/>
   <echo message="stamp=${stamp}"/>
-  
+
+  <propertyregex property="configdirBad" input="${configdir}"
+                 regexp="^(UBL-).*" select="\1" casesensitive="true"/>
+  <echo if:set="configdirBad"
+        message='ERROR - the configuration directory "${configdir}" cannot begin with "UBL-"'/> 
+  <fail if:set="configdirBad"/>
+
   <!--start with the raw files from UBL-->
   <echo message="Copying UBL directory UBL-${UBLversion}"/>
   <copy preservelastmodified="true" todir="${dir}/UBL-${UBLversion}">
@@ -83,12 +90,12 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
     </fileset>
   </copy>
   <move preservelastmodified="true" todir="${dir}" failonerror="false"
-  file="${dir}/${configdir}/${configdir}-Entities-${version}.gc"/>
+  file="${dir}/${configdir}/UBL-Entities-${configdir}.gc"/>
   <delete
         file="${dir}/${package}-${version}/mod/UBL-Entities-${UBLversion}.gc"/>
 
   <!--create GC files for subset-->
-  <delete file="${dir}/${configdir}-Entities-${version}.gc"
+  <delete file="${dir}/UBL-Entities-${configdir}.gc"
           unless:set="skip-gc-generation"/>
   <exec executable="wget" unless:set="skip-gc-generation">
     <arg value="--no-check-certificate"/>
@@ -114,7 +121,7 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   <condition property="gc-okay">
     <and>
       <istrue value="${skip-gc-generation}"/>
-      <available file="${dir}/${configdir}-Entities-${version}.gc"/>
+      <available file="${dir}/UBL-Entities-${configdir}.gc"/>
     </and>
   </condition>
   <!--create GC unless GC has been supplied-->
@@ -125,7 +132,7 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   <antcallback target="-ods2gc" unless:set="processFailed" return="returnGC2ODS">
     <param name="okay"   value="gc-okay"/>
     <param name="source" value="${dir}/UBL-Library-Google.ods,${dir}/UBL-Documents-Google.ods"/>
-    <param name="target" value="${dir}/${configdir}-Entities-${version}.gc"/>
+    <param name="target" value="${dir}/UBL-Entities-${configdir}.gc"/>
     <param name="identification-uri" value="${ident-uri}"/>
     <param name="lengthen-model-name-uri" value="${lengthen-uri}"/>
     <param name="returnProperty" value="returnGC2ODS"/>
@@ -140,7 +147,7 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   </condition>
   <condition property="processFailed">
     <not>
-      <available file="${dir}/${configdir}-Entities-${version}.gc"/>
+      <available file="${dir}/UBL-Entities-${configdir}.gc"/>
     </not>
   </condition>
 
@@ -163,7 +170,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
     <param name="dbhref"
            value="mod/summary/reports/All-${package}-Documents.html"/>
     <param name="words"   value="wordlist-UBL-${UBLversion}.txt"/>
-    <param name="source"  value="${dir}/${configdir}-Entities-${version}.gc"/>
+    <param name="source"  value="${dir}/UBL-Entities-${configdir}.gc"/>
     <param name="config"  value="${configdir}/config-${configdir}.xml"/>
     <param name="basecfg" value=""/>
     <param name="basegc"  value=""/>
@@ -190,13 +197,14 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   
   <!--package it all up-->
   <antcall target="-package"/>
+
 </target>
 
 <target name="-artefacts" unless="processFailed">
   <uptodate targetfile="${dir}/${package}-${version}/mod/UBL-Entities-${UBLversion}.ods"
             property=  "display-file-okay">
     <srcfiles dir=".">
-      <include name="${dir}/${configdir}-Entities-${version}.gc"/>
+      <include name="${dir}/UBL-Entities-${configdir}.gc"/>
       <include name="${configdir}/skeletonDisplayEditSubset-${configdir}.ods"/>
     </srcfiles>
   </uptodate>
@@ -208,7 +216,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   </condition>
   <antcall target="-gc2ods">
     <param name="okay"   value="display-okay"/>
-    <param name="source" value="${dir}/${configdir}-Entities-${version}.gc"/>
+    <param name="source" value="${dir}/UBL-Entities-${configdir}.gc"/>
     <param name="target" value="${dir}/${package}-${version}/mod/${configdir}-${version}.ods"/>
     <param name="skeleton"
            value="${configdir}/skeletonDisplayEditSubset-${configdir}.ods"/>
@@ -245,7 +253,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   <sequential>
     <antcall target="-gc2html">
       <param name="okay"    value="html-okay"/>
-      <param name="source"  value="${dir}/${configdir}-Entities-${version}.gc"/>
+      <param name="source"  value="${dir}/UBL-Entities-${configdir}.gc"/>
       <param name="library"      value="UBL-CommonLibrary-${UBLversion}"/>
       <param name="basehtm"     value=""/>
       <param name="basegc"      value=""/>
@@ -256,7 +264,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
     </antcall>  
     <antcall target="-gc2html">
       <param name="okay"    value="html-okay"/>
-      <param name="source"  value="${dir}/${configdir}-Entities-${version}.gc"/>
+      <param name="source"  value="${dir}/UBL-Entities-${configdir}.gc"/>
       <param name="library"      value="UBL-CommonLibrary-${UBLversion}"/>
       <param name="basehtm"     value=""/>
       <param name="basegc"      value=""/>
@@ -426,7 +434,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
 
 <target name="-package">
   <move preservelastmodified="true" todir="${dir}/${package}-${version}/mod"
-        file="${dir}/${configdir}-Entities-${version}.gc"/>
+        file="${dir}/UBL-Entities-${configdir}.gc"/>
   <delete dir="${dir}/artefacts-${package}-v${version}-${stamp}"/>
   <mkdir dir="${dir}/artefacts-${package}-v${version}-${stamp}"/>
   <copy preservelastmodified="true" todir="${dir}/artefacts-${package}-v${version}-${stamp}">
@@ -450,9 +458,11 @@ todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-fina
 todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
     <fileset dir=".">
       <include name="**"/>
-      <exclude name=".git"/>
-      <exclude name=".github"/>
-      <exclude name="utilities"/>
+      <exclude name="**/.git/**"/>
+      <exclude name="**/.github/**"/>
+      <exclude name="**/utilities/**"/>
+      <exclude name="**/${dir}/**"/>
+      <exclude name="**/UBL-**/**"/>
     </fileset>
   </copy>
 

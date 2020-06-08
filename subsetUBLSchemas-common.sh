@@ -1,8 +1,12 @@
 #!/bin/bash
 
 if [ ! -d $1 ]; then mkdir $1 ; fi
-if [ ! -d $1/artefacts-$package-v$version-$3 ]; then mkdir $1/artefacts-$package-v$version-$3 ; fi
-if [ ! -d $1/artefacts-$package-v$version-$3/archive-only-not-in-final-distribution/ ]; then mkdir $1/$package-v$version-$3/archive-only-not-in-final-distribution/ ; fi
+if [ ! -d $1/artefacts-$package-v$version-$3 ]; then 
+mkdir     $1/artefacts-$package-v$version-$3
+fi
+if [ ! -d $1/artefacts-$package-v$version-$3/archive-only-not-in-final-distribution/ ]; then 
+mkdir     $1/artefacts-$package-v$version-$3/archive-only-not-in-final-distribution/
+fi
 
 echo Building package...
 java -Dant.home=utilities/ant -classpath utilities/saxon/saxon.jar:utilities/ant/lib/ant-launcher.jar:utilities/saxon9he/saxon9he.jar:. org.apache.tools.ant.launch.Launcher -buildfile subsetUBLschemas.xml "-Dtitle=$title" "-DUBLversion=$UBLversion" -DUBLstage=os -Ddir=$1 "-Dpackage=$package" -Dversion=$version -Dstamp=$3 "-Dsubset-model-regex=$subsetDocsRegex" "-Dsubset-column-name=$subsetColumn" "-DlibraryGoogle=$libGoogle" "-DdocumentsGoogle=$docGoogle" "-Dcopyright=$copyright" "-Dconfigdir=$configDirectory" | tee $1/artefacts.console.$3.txt
@@ -13,6 +17,7 @@ echo $serverReturn >$1/artefacts-$package-v$version-$3/archive-only-not-in-final
 
 # reduce GitHub storage costs by zipping results and deleting intermediate files
 pushd $1
+if [ -f artefacts-$package-v$version-$3.zip ]; then rm artefacts-$package-v$version-$3.zip ; fi
 7z a artefacts-$package-v$version-$3.zip artefacts-$package-v$version-$3
 popd
 
