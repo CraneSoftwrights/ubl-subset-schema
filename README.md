@@ -47,7 +47,7 @@ There are configuration environment variables to set in your invocation script:
 - your package version
 
 `UBLversion=2.2`
-- the version of UBL (either "2.2" or "2.3") that you are subsetting
+- the version of UBL (either "2.1", "2.2", or "2.3") that you are subsetting
 
 `libGoogle=`[`https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY`](https://docs.google.com/spreadsheets/d/1bWAhvsb83PvkdGeMvFXiVVSWKCIZXsoiCMLhgUrHFzY)
 - the URL of your Google spreadsheet for the common library (be sure not to include the "/edit..." at the end of the browser bar)
@@ -104,11 +104,11 @@ Subset demonstration/test spreadsheets
     - [`https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro`](https://docs.google.com/spreadsheets/d/1I4Auuk_TS7oowpTcHwhSqEEmr8aYmz-i5UNmPG4CUro)
 
 There are three demonstration configuration directories:
-- UBL 2.1 - `UBL-2.1-Demo`
-- UBL 2.2 - `DBEcoreDemo`
-- UBL 2.3 CSPRD02 - `UBL-2.3-CSPRD02-Demo`
+- UBL 2.1 - `UBL-2.1-Demo/`
+- UBL 2.2 - `DBEcoreDemo/`
+- UBL 2.3 CSPRD02 - `UBL-2.3-CSPRD02-Demo/`
 
-There are five files in a `{configDirectory}` directory:
+There are five files in a `{configDirectory}` directory, each suffixed with a repeat of the directory name:
 - `{configDirectory}/ident-{configDirectory}.xml`
   - edit this to specify the identification metadata for the document model genericode file created from the Google spreadsheets
   - in this demonstration, an entity is used to ensure the same version string is used in multiple places
@@ -122,7 +122,7 @@ There are five files in a `{configDirectory}` directory:
 - `{configDirectory}/massageModelName-{configDirectory}.xml`
   - this need only be changed when creating extension or additional schemas, not subset schemas, and provides a list of abbreviations needed when translating Google spreadsheet tab names longer than 31 characters
   - if you are changing between versions of UBL, this file must be updated to reflect the new version
-- `{configDirectory}/spellcheck-DBEcoreDemo.txt`
+- `{configDirectory}/spellcheck-{configDirectory}.txt`
   - this need only be changed when creating extension or additional schemas, not subset schemas, and provides a list of allowed words beyond the English dictionary used in spell-checking the dictionary entry names
 
 There are three demonstration invocation scripts:

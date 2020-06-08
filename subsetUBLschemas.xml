@@ -437,14 +437,8 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   <touch if:set="skip-gc-generation" file="${dir}/artefacts-${package}-v${version}-${stamp}/GC-FILE-NOT-REGENERATED.txt"/>
   <touch if:set="skip-spreadsheet-generation" file="${dir}/artefacts-${package}-v${version}-${stamp}/ODS-XLS-FILES-NOT-GENERATED.txt"/>
   <touch if:set="skip-html-generation" file="${dir}/artefacts-${package}-v${version}-${stamp}/HTML-FILES-NOT-GENERATED.txt"/>
-  <mkdir dir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution"/>
 
-  <copy preservelastmodified="true" includeEmptyDirs="false"
-todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
-    <fileset dir=".">
-      <include name="**"/>
-    </fileset>
-  </copy>
+  <mkdir dir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution"/>
   <move preservelastmodified="true" includeEmptyDirs="false"
 todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
     <fileset dir="${dir}">
@@ -452,6 +446,15 @@ todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-fina
       <exclude name="artefacts.*.txt"/>
     </fileset>
   </move>
+  <copy preservelastmodified="true" includeEmptyDirs="false"
+todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
+    <fileset dir=".">
+      <include name="**"/>
+      <exclude name=".git"/>
+      <exclude name=".github"/>
+      <exclude name="utilities"/>
+    </fileset>
+  </copy>
 
   <!--remove unneeded files to reduce storage burden-->
   <delete dir="${dir}/${package}-${version}"/>
