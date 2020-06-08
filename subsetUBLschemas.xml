@@ -392,7 +392,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
 <target name="-gc2html" unless="${okay}">
   <delete file="${dir}/${package}-${version}/mod/summary/reports"/>
   <property name="alldocsname" value="All-${package}-Documents"/>
-  <echo message='Creating HTML reports from "${source}" GC file with extensions=${extensions}...'/>
+  <echo message='Creating HTML reports from "${source}" GC file with exclusions=${exclusions}...'/>
   <java append="true" classname="net.sf.saxon.Transform">
      <arg value="-xsl:${utilitydir}Crane-gc2obdndr-${gc2obdndr}/Crane-gc2obdsummary.xsl"/>
      <arg value="-s:${source}"/>

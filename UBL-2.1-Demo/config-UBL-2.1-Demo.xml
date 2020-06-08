@@ -144,7 +144,7 @@ namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponent
             syntax="JSON"/>
       <file type="QDT" name="UBL-QualifiedDataTypes-2.1.json"
             syntax="JSON"/>
-      <file type="UDT" name="UBL-UnqualifiedDataTypes-2.1.json"
+      <file type="UDT" name="BDNDR-UnqualifiedDataTypes-1.1.json"
             syntax="JSON"/>
       <file type="EXT" name="UBL-CommonExtensionComponents-2.1.json"
             syntax="JSON">
