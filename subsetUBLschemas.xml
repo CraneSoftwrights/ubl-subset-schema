@@ -5,11 +5,13 @@
 <target name="make">
   <property name="thisdir" value="${user.dir}"/>
   <property name="utilitydir" value="${thisdir}/utilities/"/>
+  <propertyregex property="UBLversionBase" input="${UBLversion}"
+                 regexp="^(\d\.\d)" select="\1" casesensitive="true"/>
   <condition property="abieExtensions" value="no">
     <!--override abieExtensions as "no" for UBL 2.2 and earlier-->
     <or>
-      <equals arg1="${UBLversion}" arg2="2.1"/>
-      <equals arg1="${UBLversion}" arg2="2.2"/>
+      <equals arg1="${UBLversionBase}" arg2="2.1"/>
+      <equals arg1="${UBLversionBase}" arg2="2.2"/>
     </or>
   </condition>
   <property name="abieExtensions" value="yes"/>
@@ -30,6 +32,7 @@
   <echo message="thisdir=${thisdir}"/>
   <echo message="configdir=${configdir}"/>
   <echo message="UBLversion=${UBLversion}"/>
+  <echo message="UBLversionBase=${UBLversionBase}"/>
   <echo message="abieExtensions=${abieExtensions}"/>
   <!--test skip-gc.txt to preserve the old genericode model file-->
   <available property="skip-gc-generation" file="skip-gc.txt"/>
@@ -152,8 +155,6 @@ file="${utilitydir}Crane-gc2odsxml-${gc2odsxml}/Crane-gc2odsxml.xsl"/>
   </condition>
 
   <!--create XSD files--><!--against UBL ${UBLversion}-->
-  <propertyregex property="UBLversionBase" input="${UBLversion}"
-                 regexp="^(\d\.\d)" select="\1" casesensitive="true"/>
   <antcallback target="-gc2ndr" return="returnNDR"
                unless:set="processFailed">
     <param name="okay"    value="xsd-okay"/><!--not set to force running-->
@@ -254,7 +255,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
     <antcall target="-gc2html">
       <param name="okay"    value="html-okay"/>
       <param name="source"  value="${dir}/UBL-Entities-${configdir}.gc"/>
-      <param name="library"      value="UBL-CommonLibrary-${UBLversion}"/>
+      <param name="library"      value="UBL-CommonLibrary-${UBLversionBase}"/>
       <param name="basehtm"     value=""/>
       <param name="basegc"      value=""/>
       <param name="subsets"     value="${subset-model-regex}"/>
@@ -265,7 +266,7 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
     <antcall target="-gc2html">
       <param name="okay"    value="html-okay"/>
       <param name="source"  value="${dir}/UBL-Entities-${configdir}.gc"/>
-      <param name="library"      value="UBL-CommonLibrary-${UBLversion}"/>
+      <param name="library"      value="UBL-CommonLibrary-${UBLversionBase}"/>
       <param name="basehtm"     value=""/>
       <param name="basegc"      value=""/>
       <param name="subsets"     value="${subset-model-regex}"/>
