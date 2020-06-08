@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Identification
+[
+<!ENTITY version "0.1">
+]>
+<Identification>
+    <ShortName>DBEsubset Demonstration</ShortName>
+    <LongName>DBE subset demonstration model</LongName>
+    <Version>&version;</Version>
+    <CanonicalUri>urn:iso:X-DBEsubset</CanonicalUri>
+    <CanonicalVersionUri>urn:X-DBEsubset:&version;</CanonicalVersionUri>
+ </Identification>

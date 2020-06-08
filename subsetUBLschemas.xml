@@ -447,13 +447,6 @@ value="old2newDocBook-${configdir}-${version}-UBL-${UBLversion}-documents-ent.xm
   <touch if:set="skip-html-generation" file="${dir}/artefacts-${package}-v${version}-${stamp}/HTML-FILES-NOT-GENERATED.txt"/>
 
   <mkdir dir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution"/>
-  <move preservelastmodified="true" includeEmptyDirs="false"
-todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
-    <fileset dir="${dir}">
-      <include name="*"/>
-      <exclude name="artefacts.*.txt"/>
-    </fileset>
-  </move>
   <copy preservelastmodified="true" includeEmptyDirs="false"
 todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
     <fileset dir=".">
@@ -465,6 +458,13 @@ todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-fina
       <exclude name="**/UBL-**/**"/>
     </fileset>
   </copy>
+  <move preservelastmodified="true" includeEmptyDirs="false"
+todir="${dir}/artefacts-${package}-v${version}-${stamp}/archive-only-not-in-final-distribution">
+    <fileset dir="${dir}">
+      <include name="*"/>
+      <exclude name="artefacts.*.txt"/>
+    </fileset>
+  </move>
 
   <!--remove unneeded files to reduce storage burden-->
   <delete dir="${dir}/${package}-${version}"/>

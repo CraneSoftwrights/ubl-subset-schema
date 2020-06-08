@@ -15,6 +15,6 @@ export package=Demonstration-subset-UBL-2.3-CSPRD02
 export subsetColumn=Subset
 export subsetDocsRegex="(^UBL-(Invoice|ApplicationResponse)-2.3$)"
 
-sh subsetUBLSchemas-common.sh "$1" "$2" "$3" "$4"
+bash subsetUBLSchemas-common.sh "$1" "$2" "$3" "$4"
 
 exit 0 # always be successful so that github returns ZIP of results
